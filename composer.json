@@ -1,0 +1,12 @@
+{
+    "name": "wprelay/tremendous",
+    "autoload": {
+        "psr-4": {
+            "WPRelay\\Tremendous\\Src\\": "src/",
+            "WPRelay\\Tremendous\\App\\": "app/"
+        }
+    },
+    "require": {
+        "guzzlehttp/guzzle": "7.0.*"
+    }
+}
