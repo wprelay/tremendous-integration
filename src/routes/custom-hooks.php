@@ -5,6 +5,7 @@ use WPRelay\Tremendous\Src\Tremendous;
 $store_front_hooks = [
     'actions' => [
         'wpr_process_tremendous_payouts' => ['callable' => [Tremendous::class, 'sendPayments'], 'priority' => 11, 'accepted_args' => 1],
+        'wpr_send_single_tremendous_reward' => ['callable' => [Tremendous::class, 'sendSingleReward'], 'priority' => 11, 'accepted_args' => 1],
     ],
     'filters' => [
         'rwp_payment_process_sources' => ['callable' => [Tremendous::class, 'addTremendousPayment'], 'priority' => 11, 'accepted_args' => 4],

@@ -3,32 +3,19 @@
 namespace WPRelay\Tremendous\Src;
 
 use WPRelay\Tremendous\App\Services\Request\Response;
+use WPRelay\Tremendous\App\Services\Settings;
 
 class DashboardController
 {
     public static function playground()
     {
-        $client = new TremendousClient();
+        $settings = Settings::get('tremendous_settings');
 
-        if ($client->authenticate()) {
-            $response = $client->sendRewards();
 
-            $body = $response->getBody();
+        return Response::success([
+            'data' => $settings
+        ]);
 
-            $contents = $body->getContents();
-
-            $data = json_decode($contents, true);
-
-            Response::success([
-               'contents' => $data
-            ]);
-        }
-
-        return [
-            'message' => 'Order not created due to some issues'
-        ];
-
-//      $client->sendRewards();
     }
 
 }

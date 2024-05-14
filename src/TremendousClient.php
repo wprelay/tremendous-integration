@@ -4,6 +4,7 @@ namespace WPRelay\Tremendous\Src;
 
 use GuzzleHttp\Client;
 use WPRelay\Tremendous\App\Services\Request\Response;
+use WPRelay\Tremendous\App\Services\Settings;
 
 class TremendousClient
 {
@@ -28,26 +29,31 @@ class TremendousClient
         return new self();
     }
 
-    public function sendRewards()
+    public function sendRewards($item)
     {
         $token = $this->getApiKey();
 
         //construct the rewards using affiliate data
 
+        $campaign_id = Settings::get('tremendous_settings.campaign_id');
+
+
         $rewards = [
-            [
-                "campaign_id" => "BDFZQF1Y8OGM",
-                "value" => [
-                    "denomination" => 50.00,
-                    "currency_code" => "USD"
-                ],
-                "delivery" => [
-                    "method" => "EMAIL"
-                ],
-                "recipient" => [
-                    "name" => "Jane Doe",
-                    "email" => "benitto@cartrabbit.in"
-                ]
+            "campaign_id" => $campaign_id,
+            "value" => [
+                "denomination" => $item['commission_amount'],
+                "currency_code" => $item['currency']
+            ],
+            "delivery" => [
+                "method" => "EMAIL"
+            ],
+            "recipient" => [
+                "name" => "Jane Doe",
+                "email" => $item['affiliate_email']
+            ],
+            'custom_fields' => [
+                ["id" => 'payout_id', 'value' => $item['affiliate_payout_id']],
+                ['id' => 'affiliate_id', 'value' => $item['affiliate_id']]
             ]
         ];
 
@@ -71,11 +77,16 @@ class TremendousClient
 
     public function getApiKey()
     {
-        error_log($this->api_key);
         if ($this->api_key) return $this->api_key;
 
         //query from database and store in $this->api_key
-        return "TEST_VVjb2pRNx--uRbWJMulj1vkhmSU57B9DSHBXLWzdviL";
+
+        $api_key = Settings::get('tremendous_settings.api_key');
+
+        $this->setApiKey($api_key);
+
+        return $api_key;
+
     }
 
     public function authenticate()
