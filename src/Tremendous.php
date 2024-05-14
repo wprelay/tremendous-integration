@@ -50,60 +50,70 @@ class Tremendous extends RWPPayment
 
     public static function sendPayments($payout_ids)
     {
-        $ids = implode("','", $payout_ids);
+        try {
 
-        $memberTable = Member::getTableName();
-        $affiliateTable = Affiliate::getTableName();
-        $payoutTable = Payout::getTableName();
+            error_log('Bulk Tremendous Payout Initialized');
+
+            $ids = implode("','", $payout_ids);
+
+            $memberTable = Member::getTableName();
+            $affiliateTable = Affiliate::getTableName();
+            $payoutTable = Payout::getTableName();
 
 
-        $payouts = Payout::query()
-            ->select("{$payoutTable}.*, {$memberTable}.email as affiliate_email, {$affiliateTable}.payment_email as paypal_email")
-            ->leftJoin($affiliateTable, "$affiliateTable.id = $payoutTable.affiliate_id")
-            ->leftJoin($memberTable, "$memberTable.id = $affiliateTable.member_id")
-            ->where("{$payoutTable}.id in ('" . $ids . "')")
-            ->get();
+            $payouts = Payout::query()
+                ->select("{$payoutTable}.*, {$memberTable}.email as affiliate_email, {$affiliateTable}.payment_email as paypal_email")
+                ->leftJoin($affiliateTable, "$affiliateTable.id = $payoutTable.affiliate_id")
+                ->leftJoin($memberTable, "$memberTable.id = $affiliateTable.member_id")
+                ->where("{$payoutTable}.id in ('" . $ids . "')")
+                ->get();
 
-        $data = [];
+            $data = [];
 
-        foreach ($payouts as $payout) {
-            if (in_array($payout->id, $payout_ids)) {
-                $data[] = [
-                    'affiliate_email' => $payout->paypal_email,
-                    'commission_amount' => $payout->amount,
-                    'currency' => $payout->currency,
-                    'affiliate_id' => $payout->affiliate_id,
-                    'affiliate_payout_id' => $payout->id,
-                ];
+            foreach ($payouts as $payout) {
+                if (in_array($payout->id, $payout_ids)) {
+                    $data[] = [
+                        'affiliate_email' => $payout->paypal_email,
+                        'commission_amount' => $payout->amount,
+                        'currency' => $payout->currency,
+                        'affiliate_id' => $payout->affiliate_id,
+                        'affiliate_payout_id' => $payout->id,
+                    ];
+                }
             }
-        }
 
 
-        foreach ($data as $item) {
-            Reward::query()->create([
-                'affiliate_id' => $item['affiliate_id'],
-                'payout_id' => $item['affiliate_payout_id'],
-                'amount' => $item['commission_amount'],
-                'currency' => $item['currency'],
-                'receipent_email' => $item['affiliate_email'],
-                'receipent_name' => $item['affiliate_email'],
-                'status' => 'pending'
-            ]);
-
-            $affiliate_id = $item['affiliate_id'];
-            $payout_id = $item['affiliate_payout_id'];
-
-
-            if (\ActionScheduler::is_initialized()) {
-                as_schedule_single_action(strtotime("now"), 'wpr_send_single_tremendous_reward', [$payout_id]);
-            } else {
-                Reward::query()->update([
-                    'status' => 'failed',
-                ], [
-                    'payout_id' => $payout_id
+            foreach ($data as $item) {
+                error_log('Reward Entry created');
+                Reward::query()->create([
+                    'affiliate_id' => $item['affiliate_id'],
+                    'payout_id' => $item['affiliate_payout_id'],
+                    'amount' => $item['commission_amount'],
+                    'currency' => $item['currency'],
+                    'receipent_email' => $item['affiliate_email'],
+                    'receipent_name' => $item['affiliate_email'],
+                    'status' => 'pending'
                 ]);
-                error_log('ActionScheduler not initialized so Unable to process Payouts Via Paypal');
+
+                $affiliate_id = $item['affiliate_id'];
+                $payout_id = $item['affiliate_payout_id'];
+
+
+                if (\ActionScheduler::is_initialized()) {
+                    as_schedule_single_action(strtotime("now"), 'wpr_send_single_tremendous_reward', [$payout_id]);
+                } else {
+                    Reward::query()->update([
+                        'status' => 'failed',
+                    ], [
+                        'payout_id' => $payout_id
+                    ]);
+                    static::payoutFailed([$payout]);
+                    error_log('ActionScheduler not initialized so Unable to process Payouts Via Paypal');
+                }
             }
+        } catch (\Error $error) {
+            PluginHelper::logError("Error Occurred While Send Payments Via Tremendous", [__CLASS__, __FUNCTION__], $error);
+            return false;
         }
     }
 
@@ -134,69 +144,81 @@ class Tremendous extends RWPPayment
     public static function sendSingleReward($payout_id)
     {
 
-        $payout = Payout::query()->where("id = %d", [$payout_id])->first();
+        try {
+            error_log('Sending single reward');
 
-        if(empty($payout)) return;
+            $payout = Payout::query()->where("id = %d", [$payout_id])->first();
 
-        $data = [
-            'affiliate_email' => $payout->paypal_email,
-            'commission_amount' => $payout->amount,
-            'currency' => $payout->currency,
-            'affiliate_id' => $payout->affiliate_id,
-            'affiliate_payout_id' => $payout->id,
-        ];
 
-        $client = new TremendousClient();
+            if (empty($payout)) return;
 
-        $status = 'failure';
+            $affiliate = Affiliate::query()->find($payout->affiliate_id);
+            $member = Member::query()->find($affiliate->member_id);
 
-        if ($client->authenticate()) {
-            $response = $client->sendRewards($data);
+            $data = [
+                'affiliate_email' => $member->email,
+                'commission_amount' => $payout->amount,
+                'currency' => $payout->currency,
+                'affiliate_id' => $payout->affiliate_id,
+                'affiliate_payout_id' => $payout->id,
+            ];
 
-            if ($response->getStatusCode() >= 200 && $response->getStatusCode() < 300) {
-                $body = $response->getBody();
-                $contents = $body->getContents();
-                $data = json_decode($contents, true);
+            $client = new TremendousClient();
 
-                if (!empty($data)) {
-                    $order = $data['order'];
+            $status = 'failure';
 
-                    $order_status = $order['status'];
+            if ($client->authenticate()) {
+                $response = $client->sendRewards($data);
 
-                    $order_rewards = $order['rewards'];
+                if ($response->getStatusCode() >= 200 && $response->getStatusCode() < 300) {
+                    $body = $response->getBody();
+                    $contents = $body->getContents();
+                    $data = json_decode($contents, true);
 
-                    if (in_array($order_status, ['CANCELED', 'FAILED'])) {
-                        $status = 'failed';
-                    } else {
-                        $status = 'success';
-                    }
+                    if (!empty($data)) {
+                        $order = $data['order'];
 
-                    foreach ($order_rewards as $item) {
-                        $custom_fields = $item['custom_fields'];
-                        $affiliate_id = static::getCustomFieldValue($custom_fields, 'affiliate_id');
-                        $payout_id = static::getCustomFieldValue($custom_fields, 'payout_id');
-                        $reward_id = $item['reward_id'];
-                        $order_id = $item['order_id'];
-                        $deliver_at = $item['deliver_at'];
+                        $order_status = $order['status'];
 
-                        Reward::query()->update([
-                            'reward_id' => $reward_id,
-                            'order_id' => $order_id,
-                            'deliver_at' => $deliver_at,
-                            'status' => $status,
-                        ], [
-                            'affiliate_id' => $affiliate_id,
-                            'payout_id' => $payout_id,
-                        ]);
+                        $order_rewards = $order['rewards'];
+
+                        if (in_array($order_status, ['CANCELED', 'FAILED'])) {
+                            $status = 'failed';
+                        } else {
+                            $status = 'success';
+                        }
+
+                        foreach ($order_rewards as $item) {
+                            $custom_fields = $item['custom_fields'];
+                            $affiliate_id = static::getCustomFieldValue($custom_fields, 'affiliate_id');
+                            $payout_id = static::getCustomFieldValue($custom_fields, 'payout_id');
+                            $reward_id = $item['reward_id'];
+                            $order_id = $item['order_id'];
+                            $deliver_at = $item['deliver_at'];
+
+                            Reward::query()->update([
+                                'reward_id' => $reward_id,
+                                'order_id' => $order_id,
+                                'status' => $status,
+                            ], [
+                                'affiliate_id' => $affiliate_id,
+                                'payout_id' => $payout_id,
+                            ]);
+                        }
                     }
                 }
             }
-        }
 
-        if ($status == 'success') {
-            static::payoutSucceeded([$payout]);
-            return true;
-        } else {
+            if ($status == 'success') {
+                error_log('Single reward Sending succeeded');
+                static::payoutSucceeded([$payout]);
+                return true;
+            } else {
+                static::payoutFailed([$payout]);
+                return false;
+            }
+        } catch (\Error $error) {
+            PluginHelper::logError("Error Occurred While Send Single Reward", [__CLASS__, __FUNCTION__], $error);
             static::payoutFailed([$payout]);
             return false;
         }
