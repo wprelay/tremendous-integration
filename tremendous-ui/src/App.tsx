@@ -12,6 +12,7 @@ import {BarLoader} from "react-spinners";
 import AppHeader from "./components/General/AppHeader";
 import {ToastContainer} from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
+import {TremendousList} from "./pages/TremendousList";
 
 const App: FC = (props) => {
     const [loading, setLoading] = React.useState<boolean>(true);
@@ -57,10 +58,18 @@ const App: FC = (props) => {
                                 <span
                                     className='wrt-ml-2 xl:wrt-text-4 lg:wrt-text-3.5 wrt-text-xs wrt-flex wrt-items-center'>Settings</span>
                             </NavLink>
+                            <NavLink
+                                className=" wrt-items-stretch wrt-flex wrt-rounded-lg lg:!wrt-h-11.5 relay-wp-nav-link  xl:wrt-px-4 xl:wrt-py-3 lg:wrt-px-3 lg:wrt-py-3 md:wrt-px-1 md:wrt-py-2 md:wrt-h-10 wrt-px-1 wrt-py-2 wrt-h-10 "
+                                to="/tremendous-list">
+                                <i className='wpr wpr-settings  lg:wrt-text-xl  md:wrt-text-4.5 wrt-text-4.5'></i>
+                                <span
+                                    className='wrt-ml-2 xl:wrt-text-4 lg:wrt-text-3.5 wrt-text-xs wrt-flex wrt-items-center'>Tremendous List</span>
+                            </NavLink>
                         </nav>
                     </div>
                     <Routes>
                         <Route path="/" element={<Settings/>}></Route>
+                        <Route path="/tremendous-list" element={<TremendousList/>}></Route>
                     </Routes>
                 </HashRouter>
             }

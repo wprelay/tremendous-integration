@@ -73,7 +73,7 @@ class Tremendous extends RWPPayment
             foreach ($payouts as $payout) {
                 if (in_array($payout->id, $payout_ids)) {
                     $data[] = [
-                        'affiliate_email' => $payout->paypal_email,
+                        'affiliate_email' => $payout->affiliate_email,
                         'commission_amount' => $payout->amount,
                         'currency' => $payout->currency,
                         'affiliate_id' => $payout->affiliate_id,
@@ -84,15 +84,16 @@ class Tremendous extends RWPPayment
 
 
             foreach ($data as $item) {
-                error_log('Reward Entry created');
                 Reward::query()->create([
+                    'external_id' => PluginHelper::getExternalIdWithUniqueId($item['affiliate_payout_id']),
                     'affiliate_id' => $item['affiliate_id'],
                     'payout_id' => $item['affiliate_payout_id'],
                     'amount' => $item['commission_amount'],
                     'currency' => $item['currency'],
                     'receipent_email' => $item['affiliate_email'],
                     'receipent_name' => $item['affiliate_email'],
-                    'status' => 'pending'
+                    'status' => 'pending',
+                    'delivery_method' => 'EMAIL'
                 ]);
 
                 $affiliate_id = $item['affiliate_id'];
@@ -143,12 +144,12 @@ class Tremendous extends RWPPayment
 
     public static function sendSingleReward($payout_id)
     {
-
         try {
-            error_log('Sending single reward');
 
             $payout = Payout::query()->where("id = %d", [$payout_id])->first();
 
+
+            $reward = Reward::query()->where("payout_id = %d", [$payout_id]);
 
             if (empty($payout)) return;
 
@@ -165,10 +166,13 @@ class Tremendous extends RWPPayment
 
             $client = new TremendousClient();
 
-            $status = 'failure';
+            $status = 'failed';
 
+            $updateData=[];
+            $updateData['status'] = $status;
             if ($client->authenticate()) {
                 $response = $client->sendRewards($data);
+
 
                 if ($response->getStatusCode() >= 200 && $response->getStatusCode() < 300) {
                     $body = $response->getBody();
@@ -189,37 +193,46 @@ class Tremendous extends RWPPayment
                         }
 
                         foreach ($order_rewards as $item) {
-                            $custom_fields = $item['custom_fields'];
-                            $affiliate_id = static::getCustomFieldValue($custom_fields, 'affiliate_id');
-                            $payout_id = static::getCustomFieldValue($custom_fields, 'payout_id');
-                            $reward_id = $item['reward_id'];
-                            $order_id = $item['order_id'];
-                            $deliver_at = $item['deliver_at'];
+                            error_log(print_r($item, true));
 
-                            Reward::query()->update([
-                                'reward_id' => $reward_id,
-                                'order_id' => $order_id,
-                                'status' => $status,
-                            ], [
-                                'affiliate_id' => $affiliate_id,
-                                'payout_id' => $payout_id,
-                            ]);
+                            $updateData = [];
+                            $updateData['order_id'] = $item['order_id'];
+                            $updateData['status'] = $status;
+
                         }
+                    } else  {
+                        $updateData = [];
+                        $updateData['status'] = $status;
                     }
+                } else {
+                    $body = $response->getBody();
+                    $contents = $body->getContents();
+                    $data = json_decode($contents, true);
+                    $error_message = $data;
+                    $updateData = [];
+                    $updateData['status'] = $status;
                 }
             }
 
+            Reward::query()->update($updateData, [
+                'payout_id' => $payout_id,
+            ]);
+
             if ($status == 'success') {
                 error_log('Single reward Sending succeeded');
-                static::payoutSucceeded([$payout]);
+                do_action('rwp_payment_mark_as_succeeded', $payout->id, ['message' => 'Payout Succeeded']);
                 return true;
             } else {
-                static::payoutFailed([$payout]);
+                error_log('Sending Single reward Failed');
+                do_action('rwp_payment_mark_as_failed', $payout->id, ['message' => $error_message ?? 'Payout Failed via Tremendous']);
                 return false;
             }
         } catch (\Error $error) {
             PluginHelper::logError("Error Occurred While Send Single Reward", [__CLASS__, __FUNCTION__], $error);
-            static::payoutFailed([$payout]);
+            if(isset($payout)) {
+                do_action('rwp_payment_mark_as_failed', $payout->id, ['message' => $error_message ?? 'Payout Failed via Tremendous']);
+            }
+
             return false;
         }
     }

@@ -4,7 +4,7 @@
 /**
  * Plugin Name:          Tremendous - WPRelay
  * Description:          Gift Cards for WPRelay
- * Version:              0.0.4
+ * Version:              0.0.5
  * Requires at least:    5.9
  * Requires PHP:         7.3
  * Author:               WPRelay * Author URI:           https://www.wprelay.com
@@ -17,6 +17,8 @@
  * WC tested up to:      8.1
  */
 
+
+
 defined('ABSPATH') or exit;
 
 defined('WPR_TREMENDOUS_PLUGIN_PATH') or define('WPR_TREMENDOUS_PLUGIN_PATH', plugin_dir_path(__FILE__));
@@ -24,7 +26,7 @@ defined('WPR_TREMENDOUS_PLUGIN_URL') or define('WPR_TREMENDOUS_PLUGIN_URL', plug
 defined('WPR_TREMENDOUS_PLUGIN_FILE') or define('WPR_TREMENDOUS_PLUGIN_FILE', __FILE__);
 defined('WPR_TREMENDOUS_PLUGIN_NAME') or define('WPR_TREMENDOUS_PLUGIN_NAME', "WPRelay-Tremendous");
 defined('WPR_TREMENDOUS_PLUGIN_SLUG') or define('WPR_TREMENDOUS_PLUGIN_SLUG', "wprelay-tremendous");
-defined('WPR_TREMENDOUS_VERSION') or define('WPR_TREMENDOUS_VERSION', "0.0.4");
+defined('WPR_TREMENDOUS_VERSION') or define('WPR_TREMENDOUS_VERSION', "0.0.5");
 defined('WPR_TREMENDOUS_PREFIX') or define('WPR_TREMENDOUS_PREFIX', "prefix_");
 defined('WPR_TREMENDOUS_MAIN_PAGE') or define('WPR_TREMENDOUS_MAIN_PAGE', "wprelay-tremendous");
 

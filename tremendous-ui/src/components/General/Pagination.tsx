@@ -41,11 +41,11 @@ export const Pagination = ({
     }
 
 
-    return (<div className="wrp-flex wrp-flex-row wrp-justify-end wrp-gap-6">
+    return (<div className="wrt-flex wrt-flex-row wrt-justify-end wrt-gap-6">
 
         {hidePerPageSelect ? null : (
             <div
-                className="wrp-flex wrp-justify-center wrp-items-center wrp-gap-3">
+                className="wrt-flex wrt-justify-center wrt-items-center wrt-gap-3">
 
                 <Select styles={{
                     option: (styles, { data, isDisabled, isFocused, isSelected }) => {
@@ -56,7 +56,7 @@ export const Pagination = ({
                         };
                     }
                 }}
-                        classNamePrefix="wrp-"
+                        classNamePrefix="wrt-"
                         onChange={(selectedOption: any) => {
                             updatePerPage ? updatePerPage(selectedOption.value) : null
                         }}
@@ -68,10 +68,10 @@ export const Pagination = ({
         <div>
             <ReactPaginate
                 previousLabel={
-                    <i className="wpr wpr-back-arrow wrp-w-9 wrp-h-9 wrp-flex wrp-justify-center wrp-items-center hover:wrp-bg-light-gray"></i>
+                    <i className="wpr wpr-back-arrow wrt-w-9 wrt-h-9 wrt-flex wrt-justify-center wrt-items-center hover:wrt-bg-light-gray"></i>
                 }
                 nextLabel={
-                    <i className="wpr wpr-forward-arrow wrp-w-9 wrp-h-9 wrp-flex wrp-justify-center wrp-items-center hover:wrp-bg-light-gray"></i>
+                    <i className="wpr wpr-forward-arrow wrt-w-9 wrt-h-9 wrt-flex wrt-justify-center wrt-items-center hover:wrt-bg-light-gray"></i>
                 }
 
                 // prevPageRel={null}
@@ -85,26 +85,26 @@ export const Pagination = ({
                 onPageChange={handlePageClick}
                 breakClassName={""}
 
-                breakLinkClassName={"wrp-shadow-none wrp-outline-none wrp-border-0"}
+                breakLinkClassName={"wrt-shadow-none wrt-outline-none wrt-border-0"}
 
-                // previousClassName={`${loading && "wrp-pointer-events-none"}`}
+                // previousClassName={`${loading && "wrt-pointer-events-none"}`}
 
-                nextClassName={`${loading && "wrp-pointer-events-none"}`}
-                disabledClassName="wrp-disabled"
+                nextClassName={`${loading && "wrt-pointer-events-none"}`}
+                disabledClassName="wrt-disabled"
 
                 // onPageActive={true}
                 pageLinkClassName={
-                    'wrp-px-4 wrp-py-3 wrp-outline-none hover:wrp-bg-secondary '
+                    'wrt-px-4 wrt-py-3 wrt-outline-none hover:wrt-bg-secondary '
                 }
 
                 activeLinkClassName={
-                    'wrp-text-secondary wrp-outline-none  wrp-rounded wrp-border wrp-bg-primary  '
+                    'wrt-text-secondary wrt-outline-none  wrt-rounded wrt-border wrt-bg-primary  '
                 }
 
                 activeClassName={''}
 
                 containerClassName={
-                    "wrp-flex wrp-items-center wrp-justify-end wrp-gap-1.5"
+                    "wrt-flex wrt-items-center wrt-justify-end wrt-gap-1.5"
                 }
             />
         </div>

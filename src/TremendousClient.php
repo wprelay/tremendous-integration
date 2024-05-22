@@ -3,6 +3,7 @@
 namespace WPRelay\Tremendous\Src;
 
 use GuzzleHttp\Client;
+use WPRelay\Tremendous\App\Helpers\PluginHelper;
 use WPRelay\Tremendous\App\Services\Request\Response;
 use WPRelay\Tremendous\App\Services\Settings;
 
@@ -40,6 +41,7 @@ class TremendousClient
 
         $rewards = [
             "campaign_id" => $campaign_id,
+            'payout_id' => $item['affiliate_payout_id'],
             "value" => [
                 "denomination" => $item['commission_amount'],
                 "currency_code" => $item['currency']
@@ -51,10 +53,6 @@ class TremendousClient
                 "name" => "Jane Doe",
                 "email" => $item['affiliate_email']
             ],
-            'custom_fields' => [
-                ["id" => 'payout_id', 'value' => $item['affiliate_payout_id']],
-                ['id' => 'affiliate_id', 'value' => $item['affiliate_id']]
-            ]
         ];
 
         $response = $this->http_client->request('POST', '/api/v2/orders', [

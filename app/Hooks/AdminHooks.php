@@ -24,24 +24,14 @@ class AdminHooks extends RegisterHooks
 
     public static function addMenu()
     {
-        add_menu_page(
+        add_submenu_page(
+            null,
             esc_html__(WPR_TREMENDOUS_PLUGIN_NAME, WPR_TREMENDOUS_PLUGIN_SLUG),
             esc_html__(WPR_TREMENDOUS_PLUGIN_NAME, WPR_TREMENDOUS_PLUGIN_SLUG),
             'manage_options',
-            WPR_TREMENDOUS_PLUGIN_SLUG,
+            WPR_TREMENDOUS_MAIN_PAGE,
             [PageController::class, 'show'],
-            'dashicons-money',
-            56
+            100
         );
-
-//        add_submenu_page(
-//            null,
-//            esc_html__(WPR_TREMENDOUS_PLUGIN_NAME, 'wprelay-paypal'),
-//            esc_html__(WPR_TREMENDOUS_PLUGIN_NAME, 'wprelay-paypal'),
-//            'manage_options',
-//            WPR_TREMENDOUS_MAIN_PAGE,
-//            [PageController::class, 'show'],
-//            100
-//        );
     }
 }

@@ -15,7 +15,7 @@ class Reward extends Model
                     id BIGINT UNSIGNED AUTO_INCREMENT,
                     payout_id BIGINT UNSIGNED,
                     affiliate_id BIGINT UNSIGNED,
-                    reward_id VARCHAR(255),
+                    external_id VARCHAR(255),
                     order_id VARCHAR(255),
                     amount VARCHAR(255),
                     currency VARCHAR(10) NULL,

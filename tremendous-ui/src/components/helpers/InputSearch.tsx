@@ -11,11 +11,11 @@ type InputSearchProps = {
 const InputSearch = ({ search, setSearch, onclick }: InputSearchProps) => {
 
     return (
-        <div className="wrp-items-stretch wrp-flex wrp-justify-between wrp-gap-2">
-            <div className='wrp-relative'>
-                <i className="wpr wpr-search wrp-text-lg wrp-absolute wrp-top-3 wrp-left-4"></i>
+        <div className="wrt-items-stretch wrt-flex wrt-justify-between wrt-gap-2">
+            <div className='wrt-relative'>
+                <i className="wpr wpr-search wrt-text-lg wrt-absolute wrt-top-3 wrt-left-4"></i>
                 <Input
-                    className="wrp-text-primary !wrp-px-12 !wrp-w-340px wrp-text-sm wrp-font-medium wrp-grow wrp-whitespace-nowrap wrp-outline-none"
+                    className="wrt-text-primary !wrt-px-12 !wrt-w-340px wrt-text-sm wrt-font-medium wrt-grow wrt-whitespace-nowrap wrt-outline-none"
                     placeholder="search" onChange={(e: any) => {
                         setSearch(e.target.value)
                     }} value={search}>
@@ -24,12 +24,12 @@ const InputSearch = ({ search, setSearch, onclick }: InputSearchProps) => {
                     setSearch('')
                     onclick('')
                 }}
-                    className="wpr wpr-close wrp-text-lg wrp-cursor-pointer wrp-absolute wrp-top-3 wrp-right-4"></i>
+                    className="wpr wpr-close wrt-text-lg wrt-cursor-pointer wrt-absolute wrt-top-3 wrt-right-4"></i>
                 ) : null}
             </div>
             <div>
                 <Button
-                    className={`wrp-text-neutral-100 !wrp-h-10  wrp-text-sm wrp-font-semibold wrp-whitespace-nowrap wrp-justify-center wrp-items-stretch  wrp-px-4 pwrp-y-3 wrp-rounded-lg ${search.length ? '' : 'wrp-opacity-30'}`}
+                    className={`wrt-text-neutral-100 !wrt-h-10  wrt-text-sm wrt-font-semibold wrt-whitespace-nowrap wrt-justify-center wrt-items-stretch  wrt-px-4 pwrt-y-3 wrt-rounded-lg ${search.length ? '' : 'wrt-opacity-30'}`}
                     onClick={() => {
                         onclick(search)
 

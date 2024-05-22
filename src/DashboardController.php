@@ -13,7 +13,7 @@ class DashboardController
 
 
         return Response::success([
-            'data' => $settings
+            'data' => $_SERVER['SERVER_NAME']
         ]);
 
     }

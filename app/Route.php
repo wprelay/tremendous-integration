@@ -24,7 +24,6 @@ class Route
 
         AdminHooks::register();
         AssetsActions::register();
-        error_log('invoked');
         CustomHooks::register();
         WPHooks::register();
     }
