@@ -13,6 +13,7 @@ import {override} from "../data/overrride";
 import {PaginationTypes} from "../components/types/PaginationTypes";
 import {Badge} from "../components/ui/badge";
 import {TremendousListEmpty} from "./TremendousListEmpty";
+import GoBackButton from "../components/General/GoBackButton";
 
 type TremendousItemEachEntryProp = {
     receiver_email: string,
@@ -87,6 +88,9 @@ export const TremendousList = () => {
                     <span
                         className='lg:wrt-text-xl md:wrt-text-lg wrt-text-sm wrt-text-primary wrt-font-bold'>Tremendous Orders List</span>
                 </span>
+            </div>
+            <div>
+                <GoBackButton/>
             </div>
         </div>
         {!loading ? (<div className="wrt-bg-white wrt-h-full wrt-rounded-2xl wrt-p-4">

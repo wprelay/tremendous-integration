@@ -106,7 +106,7 @@ class TremendousClient
 
     public static function isSandboxMode()
     {
-        return true;
+        return Settings::get('tremendous_settings.sandbox_mode') ?? true;
     }
 
     public static function getSandboxEndpoint()

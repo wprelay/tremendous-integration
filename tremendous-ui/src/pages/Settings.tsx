@@ -11,6 +11,7 @@ import {Input} from "../components/ui/input"
 import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "../components/ui/select";
 import {handleFields} from "../components/helpers/utils";
 import {Switch} from "../components/ui/switch";
+import GoBackButton from "../components/General/GoBackButton";
 
 const override = {
     display: "block",
@@ -135,14 +136,22 @@ const Settings = () => {
                 <span className='wrt-text-xl wrt-leading-5 wrt-font-bold'>Settings</span>
                 <i className='wrt wrt-video wrt-text-xl  wrt-text-grayprimary'></i>
             </div>
-            <Button
-                onClick={saveSettings}
-            >
-                {saveChangesLoading && (
-                    <span className="wrt-mx-2"><ClipLoader color="white" cssOverride={override}
-                                                           size={"20px"}/></span>)}
-                <span>Save Changes</span>
-            </Button>
+            <div className="wrt-flex wrt-gap-2">
+                <div>
+                    <GoBackButton/>
+                </div>
+                <div>
+                    <Button
+                        onClick={saveSettings}
+                    >
+                        {saveChangesLoading && (
+                            <span className="wrt-mx-2"><ClipLoader color="white" cssOverride={override}
+                                                                   size={"20px"}/></span>)}
+                        <span>Save Changes</span>
+                    </Button>
+                </div>
+            </div>
+
         </div>
 
         <Card className='wrt-my-5'>
