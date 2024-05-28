@@ -21,7 +21,6 @@
  */
 
 
-
 defined('ABSPATH') or exit;
 
 defined('WPR_TREMENDOUS_PLUGIN_PATH') or define('WPR_TREMENDOUS_PLUGIN_PATH', plugin_dir_path(__FILE__));
@@ -108,3 +107,16 @@ add_action('admin_head', function () {
         <?php
     }
 }, 11);
+
+add_action('wprelay_plugin_loaded', function() {
+    if (class_exists('Puc_v4_Factory')) {
+        error_log("tremendous release checking");
+        $myUpdateChecker = \Puc_v4_Factory::buildUpdateChecker(
+            'https://github.com/wprelay/tremendous-integration',
+            __FILE__,
+            'wprelay-tremendous'
+        );
+        $myUpdateChecker->getVcsApi()->enableReleaseAssets();
+    }
+});
+
