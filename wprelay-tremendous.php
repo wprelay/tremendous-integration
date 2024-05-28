@@ -108,7 +108,7 @@ add_action('admin_head', function () {
     }
 }, 11);
 
-add_action('wprelay_plugin_loaded', function() {
+add_action('rwp_after_init', function() {
     if (class_exists('Puc_v4_Factory')) {
         error_log("tremendous release checking");
         $myUpdateChecker = \Puc_v4_Factory::buildUpdateChecker(
