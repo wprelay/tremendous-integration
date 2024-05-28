@@ -15,6 +15,9 @@
  *
  * WC requires at least: 7.0
  * WC tested up to:      8.1
+ *
+ * WPRelay: 1.0.1
+ * WPRelay Page Link: wprelay-tremendous
  */
 
 
