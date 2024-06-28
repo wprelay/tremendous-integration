@@ -2,9 +2,9 @@
 
 
 /**
- * Plugin Name:          Tremendous - WPRelay
+ * Plugin Name:         WPRelay - Tremendous
  * Description:          Gift Cards for WPRelay
- * Version:              0.0.5
+ * Version:              0.0.7
  * Requires at least:    5.9
  * Requires PHP:         7.3
  * Author:               WPRelay * Author URI:           https://www.wprelay.com
@@ -28,7 +28,7 @@ defined('WPR_TREMENDOUS_PLUGIN_URL') or define('WPR_TREMENDOUS_PLUGIN_URL', plug
 defined('WPR_TREMENDOUS_PLUGIN_FILE') or define('WPR_TREMENDOUS_PLUGIN_FILE', __FILE__);
 defined('WPR_TREMENDOUS_PLUGIN_NAME') or define('WPR_TREMENDOUS_PLUGIN_NAME', "WPRelay-Tremendous");
 defined('WPR_TREMENDOUS_PLUGIN_SLUG') or define('WPR_TREMENDOUS_PLUGIN_SLUG', "wprelay-tremendous");
-defined('WPR_TREMENDOUS_VERSION') or define('WPR_TREMENDOUS_VERSION', "0.0.5");
+defined('WPR_TREMENDOUS_VERSION') or define('WPR_TREMENDOUS_VERSION', "0.0.7");
 defined('WPR_TREMENDOUS_PREFIX') or define('WPR_TREMENDOUS_PREFIX', "prefix_");
 defined('WPR_TREMENDOUS_MAIN_PAGE') or define('WPR_TREMENDOUS_MAIN_PAGE', "wprelay-tremendous");
 
@@ -54,6 +54,17 @@ if (file_exists(WPR_TREMENDOUS_PLUGIN_PATH . '/vendor/autoload.php')) {
     return;
 }
 
+if (defined('WC_VERSION')) {
+    /**
+     * To set plugin is compatible for WC Custom Order Table (HPOS) feature.
+     */
+    add_action('before_woocommerce_init', function () {
+        if (class_exists(\Automattic\WooCommerce\Utilities\FeaturesUtil::class)) {
+            \Automattic\WooCommerce\Utilities\FeaturesUtil::declare_compatibility('custom_order_tables', __FILE__, true);
+        }
+    });
+}
+
 if (!function_exists('wpr_check_is_wp_relay_pro_installed')) {
     function wpr_check_is_wp_relay_pro_installed()
     {
@@ -64,8 +75,18 @@ if (!function_exists('wpr_check_is_wp_relay_pro_installed')) {
 
 if (function_exists('wpr_check_is_wp_relay_pro_installed')) {
     if (!wpr_check_is_wp_relay_pro_installed()) {
-        add_action('admin_notices', 'add_wprelay_not_installed_notice');
-        error_log('Unable to Processed.  WPRelay Plugin is Not activated');
+
+        $class = 'notice notice-warning';
+        $name = WPR_TREMENDOUS_PLUGIN_NAME;
+        $status = 'warning';
+        $message = __("Error you did not installed the WPRelay Plugin to work with {$name}", 'text-domain');
+        add_action('admin_notices', function () use ($message, $status) {
+            ?>
+            <div class="notice notice-<?php echo esc_attr($status); ?>">
+                <p><?php echo wp_kses_post($message); ?></p>
+            </div>
+            <?php
+        }, 1);
         return;
     }
 }
@@ -85,14 +106,6 @@ if (class_exists('WPRelay\Tremendous\App\App')) {
     return;
 }
 
-/**
- * To set plugin is compatible for WC Custom Order Table (HPOS) feature.
- */
-add_action('before_woocommerce_init', function () {
-    if (class_exists(\Automattic\WooCommerce\Utilities\FeaturesUtil::class)) {
-        \Automattic\WooCommerce\Utilities\FeaturesUtil::declare_compatibility('custom_order_tables', __FILE__, true);
-    }
-});
 
 add_action('admin_head', function () {
     $page = !empty($_GET['page']) ? $_GET['page'] : '';
@@ -108,9 +121,8 @@ add_action('admin_head', function () {
     }
 }, 11);
 
-add_action('rwp_after_init', function() {
+add_action('rwp_after_init', function () {
     if (class_exists('Puc_v4_Factory')) {
-        error_log("tremendous release checking");
         $myUpdateChecker = \Puc_v4_Factory::buildUpdateChecker(
             'https://github.com/wprelay/tremendous-integration',
             __FILE__,

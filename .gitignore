@@ -1,0 +1,11 @@
+/vendor
+/.idea
+/tremendous-ui/.idea
+/tremendous-ui/node_modules
+/tremendous-ui/dist
+.DS_Store
+tremendous-ui/.DS_Store
+tremendous-ui/.gitignore
+tremendous-ui/src/.DS_Store
+tremendous-ui/src/components/.DS_Store
+tremendous-ui/src/pages/.DS_Store
