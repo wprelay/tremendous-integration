@@ -1,16 +1,16 @@
 <?php
 
-namespace RelayWP\Tremendous\Src;
+namespace WPRelay\Tremendous\Src;
 
 use RelayWp\Affiliate\Core\Models\Affiliate;
 use RelayWp\Affiliate\Core\Models\Member;
 use RelayWp\Affiliate\Core\Payments\RWPPayment;
 use RelayWp\Affiliate\Core\Models\Payout;
 use RelayWp\Affiliate\Core\Models\Transaction;
-use RelayWP\Tremendous\App\Helpers\PluginHelper;
-use RelayWP\Tremendous\App\Services\Request\Response;
-use RelayWP\Tremendous\App\Services\Settings;
-use RelayWP\Tremendous\Src\Models\Reward;
+use WPRelay\Tremendous\App\Helpers\PluginHelper;
+use WPRelay\Tremendous\App\Services\Request\Response;
+use WPRelay\Tremendous\App\Services\Settings;
+use WPRelay\Tremendous\Src\Models\Reward;
 
 class Tremendous extends RWPPayment
 {

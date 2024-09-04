@@ -1,9 +1,9 @@
 <?php
 
-namespace RelayWP\Tremendous\App\Services;
+namespace WPRelay\Tremendous\App\Services;
 
-use RelayWP\Tremendous\App\Helpers\Functions;
-use RelayWP\Tremendous\App\Services\Request\Response;
+use WPRelay\Tremendous\App\Helpers\Functions;
+use WPRelay\Tremendous\App\Services\Request\Response;
 
 class Settings
 {

@@ -1,7 +1,7 @@
 <?php
 
 
-namespace RelayWP\Tremendous\App\Services\Request;
+namespace WPRelay\Tremendous\App\Services\Request;
 class ParameterBag
 {
     /**

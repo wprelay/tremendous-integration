@@ -1,13 +1,13 @@
 <?php
 
-namespace RelayWP\Tremendous\Src\Controllers\Admin;
+namespace WPRelay\Tremendous\Src\Controllers\Admin;
 
 use Error;
-use RelayWP\Tremendous\App\Helpers\PluginHelper;
-use RelayWP\Tremendous\App\Resources\RewardItemCollection;
-use RelayWP\Tremendous\App\Services\Request\Request;
-use RelayWP\Tremendous\App\Services\Request\Response;
-use RelayWP\Tremendous\Src\Models\Reward;
+use WPRelay\Tremendous\App\Helpers\PluginHelper;
+use WPRelay\Tremendous\App\Resources\RewardItemCollection;
+use WPRelay\Tremendous\App\Services\Request\Request;
+use WPRelay\Tremendous\App\Services\Request\Response;
+use WPRelay\Tremendous\Src\Models\Reward;
 
 class ListController
 {

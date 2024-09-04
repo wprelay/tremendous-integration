@@ -1,11 +1,11 @@
 <?php
 
-namespace RelayWP\Tremendous\Src\Controllers\Admin;
+namespace WPRelay\Tremendous\Src\Controllers\Admin;
 
-use RelayWP\Tremendous\App\Helpers\PluginHelper;
-use RelayWP\Tremendous\App\Services\Request\Request;
-use RelayWP\Tremendous\App\Services\Request\Response;
-use RelayWP\Tremendous\Src\TremendousClient;
+use WPRelay\Tremendous\App\Helpers\PluginHelper;
+use WPRelay\Tremendous\App\Services\Request\Request;
+use WPRelay\Tremendous\App\Services\Request\Response;
+use WPRelay\Tremendous\Src\TremendousClient;
 
 class SettingsController
 {

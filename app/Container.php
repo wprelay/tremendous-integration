@@ -1,6 +1,6 @@
 <?php
 
-namespace RelayWP\Tremendous\App;
+namespace WPRelay\Tremendous\App;
 class Container
 {
     public $bindings = [];

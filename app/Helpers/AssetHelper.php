@@ -1,6 +1,6 @@
 <?php
 
-namespace RelayWP\Tremendous\App\Helpers;
+namespace WPRelay\Tremendous\App\Helpers;
 
 
 class AssetHelper

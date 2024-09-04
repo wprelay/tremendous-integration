@@ -1,6 +1,6 @@
 <?php
 
-namespace RelayWP\Tremendous\App\Traits;
+namespace WPRelay\Tremendous\App\Traits;
 
 trait useScopes
 {

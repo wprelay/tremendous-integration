@@ -1,6 +1,6 @@
 <?php
 
-namespace RelayWP\Tremendous\App\Hooks;
+namespace WPRelay\Tremendous\App\Hooks;
 
 class WPHooks extends RegisterHooks
 {

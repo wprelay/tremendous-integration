@@ -1,15 +1,15 @@
 <?php
 
-namespace RelayWP\Tremendous\App;
+namespace WPRelay\Tremendous\App;
 
-use RelayWP\Tremendous\App\Helpers\PluginHelper;
-use RelayWP\Tremendous\App\Helpers\WordpressHelper;
-use RelayWP\Tremendous\App\Hooks\AdminHooks;
-use RelayWP\Tremendous\App\Hooks\AssetsActions;
-use RelayWP\Tremendous\App\Hooks\CustomHooks;
-use RelayWP\Tremendous\App\Hooks\WPHooks;
-use RelayWP\Tremendous\App\Services\Request\Request;
-use RelayWP\Tremendous\App\Services\Request\Response;
+use WPRelay\Tremendous\App\Helpers\PluginHelper;
+use WPRelay\Tremendous\App\Helpers\WordpressHelper;
+use WPRelay\Tremendous\App\Hooks\AdminHooks;
+use WPRelay\Tremendous\App\Hooks\AssetsActions;
+use WPRelay\Tremendous\App\Hooks\CustomHooks;
+use WPRelay\Tremendous\App\Hooks\WPHooks;
+use WPRelay\Tremendous\App\Services\Request\Request;
+use WPRelay\Tremendous\App\Services\Request\Response;
 
 class Route
 {

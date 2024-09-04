@@ -1,6 +1,6 @@
 <?php
 
-namespace RelayWP\Tremendous\App\Resources;
+namespace WPRelay\Tremendous\App\Resources;
 
 class RewardItemCollection extends Collection
 {

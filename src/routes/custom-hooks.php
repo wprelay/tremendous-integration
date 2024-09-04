@@ -1,6 +1,6 @@
 <?php
 
-use RelayWP\Tremendous\Src\Tremendous;
+use WPRelay\Tremendous\Src\Tremendous;
 
 $store_front_hooks = [
     'actions' => [

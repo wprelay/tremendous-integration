@@ -1,9 +1,9 @@
 <?php
 
-namespace RelayWP\Tremendous\App\Services;
+namespace WPRelay\Tremendous\App\Services;
 
-use RelayWP\Tremendous\App\App;
-use RelayWP\Tremendous\App\Helpers\Functions;
+use WPRelay\Tremendous\App\App;
+use WPRelay\Tremendous\App\Helpers\Functions;
 class View
 {
     public static function instance()

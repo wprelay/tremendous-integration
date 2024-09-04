@@ -1,6 +1,6 @@
 <?php
 
-namespace RelayWP\Tremendous\App\Services\Request;
+namespace WPRelay\Tremendous\App\Services\Request;
 
 
 use WPRelay\Tremendous\App\Helpers\Functions;

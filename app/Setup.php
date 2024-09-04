@@ -1,13 +1,13 @@
 <?php
 
-namespace RelayWP\Tremendous\App;
+namespace WPRelay\Tremendous\App;
 
-use RelayWP\Tremendous\Src\Models\BatchPayout;
-use RelayWP\Tremendous\Src\Models\BatchPayoutItem;
-use RelayWP\Tremendous\Src\Models\MassPayout;
-use RelayWP\Tremendous\Src\Models\Model;
-use RelayWP\Tremendous\Src\Models\Reward;
-use RelayWP\Tremendous\Src\Models\WebhookEvent;
+use WPRelay\Tremendous\Src\Models\BatchPayout;
+use WPRelay\Tremendous\Src\Models\BatchPayoutItem;
+use WPRelay\Tremendous\Src\Models\MassPayout;
+use WPRelay\Tremendous\Src\Models\Model;
+use WPRelay\Tremendous\Src\Models\Reward;
+use WPRelay\Tremendous\Src\Models\WebhookEvent;
 
 class Setup
 {

@@ -1,8 +1,8 @@
 <?php
 
-namespace RelayWP\Tremendous\App\Helpers;
+namespace WPRelay\Tremendous\App\Helpers;
 
-use RelayWP\Tremendous\App\Services\Request\Response;
+use WPRelay\Tremendous\App\Services\Request\Response;
 
 class Resource
 {

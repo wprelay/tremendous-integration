@@ -1,10 +1,10 @@
 <?php
 
-namespace RelayWP\Tremendous\Src\Models;
+namespace WPRelay\Tremendous\Src\Models;
 
-use RelayWP\Tremendous\App\Services\Database;
-use RelayWP\Tremendous\App\Traits\Conditionable;
-use RelayWP\Tremendous\App\Traits\ForwardCalls;
+use WPRelay\Tremendous\App\Services\Database;
+use WPRelay\Tremendous\App\Traits\Conditionable;
+use WPRelay\Tremendous\App\Traits\ForwardCalls;
 
 abstract class Model
 {
