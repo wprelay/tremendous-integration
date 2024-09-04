@@ -1,6 +1,6 @@
 <?php
 
-use WPRelay\Tremendous\Src\Controllers\Webhook\PaypalWebhookController;
+use RelayWP\Tremendous\Src\Controllers\Webhook\PaypalWebhookController;
 
 $store_front_hooks = [
     'actions' => [

@@ -1,6 +1,6 @@
 <?php
 
-namespace WPRelay\Tremendous\App\Traits;
+namespace RelayWP\Tremendous\App\Traits;
 
 
 trait Conditionable

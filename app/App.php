@@ -1,8 +1,8 @@
 <?php
 
-namespace WPRelay\Tremendous\App;
+namespace RelayWP\Tremendous\App;
 
-use WPRelay\Tremendous\App\Setup;
+use RelayWP\Tremendous\App\Setup;
 
 class App extends Container
 {

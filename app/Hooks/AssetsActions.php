@@ -1,10 +1,10 @@
 <?php
 
-namespace WPRelay\Tremendous\App\Hooks;
+namespace RelayWP\Tremendous\App\Hooks;
 
-use WPRelay\Tremendous\App\Helpers\PluginHelper;
-use WPRelay\Tremendous\App\Helpers\WordpressHelper;
-use WPRelay\Tremendous\App\Services\Settings;
+use RelayWP\Tremendous\App\Helpers\PluginHelper;
+use RelayWP\Tremendous\App\Helpers\WordpressHelper;
+use RelayWP\Tremendous\App\Services\Settings;
 
 defined('ABSPATH') or exit;
 

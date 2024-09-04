@@ -1,9 +1,9 @@
 {
-    "name": "wprelay/tremendous",
+    "name": "relaywp/tremendous",
     "autoload": {
         "psr-4": {
-            "WPRelay\\Tremendous\\Src\\": "src/",
-            "WPRelay\\Tremendous\\App\\": "app/"
+            "RelayWP\\Tremendous\\Src\\": "src/",
+            "RelayWP\\Tremendous\\App\\": "app/"
         }
     },
     "require": {

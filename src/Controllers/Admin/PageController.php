@@ -1,7 +1,7 @@
 <?php
-namespace WPRelay\Tremendous\Src\Controllers\Admin;
+namespace RelayWP\Tremendous\Src\Controllers\Admin;
 
-use WPRelay\Tremendous\App\Services\View;
+use RelayWP\Tremendous\App\Services\View;
 
 class PageController
 {

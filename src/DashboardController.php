@@ -1,9 +1,9 @@
 <?php
 
-namespace WPRelay\Tremendous\Src;
+namespace RelayWP\Tremendous\Src;
 
-use WPRelay\Tremendous\App\Services\Request\Response;
-use WPRelay\Tremendous\App\Services\Settings;
+use RelayWP\Tremendous\App\Services\Request\Response;
+use RelayWP\Tremendous\App\Services\Settings;
 
 class DashboardController
 {

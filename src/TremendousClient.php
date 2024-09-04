@@ -1,11 +1,11 @@
 <?php
 
-namespace WPRelay\Tremendous\Src;
+namespace RelayWP\Tremendous\Src;
 
 use GuzzleHttp\Client;
-use WPRelay\Tremendous\App\Helpers\PluginHelper;
-use WPRelay\Tremendous\App\Services\Request\Response;
-use WPRelay\Tremendous\App\Services\Settings;
+use RelayWP\Tremendous\App\Helpers\PluginHelper;
+use RelayWP\Tremendous\App\Services\Request\Response;
+use RelayWP\Tremendous\App\Services\Settings;
 
 class TremendousClient
 {

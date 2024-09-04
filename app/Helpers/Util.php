@@ -1,6 +1,6 @@
 <?php
 
-namespace WPRelay\Tremendous\App\Helpers;
+namespace RelayWP\Tremendous\App\Helpers;
 defined('ABSPATH') or exit;
 class Util
 {

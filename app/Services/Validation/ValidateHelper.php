@@ -1,10 +1,10 @@
 <?php
 
-namespace WPRelay\Tremendous\App\Services\Validation;
+namespace RelayWP\Tremendous\App\Services\Validation;
 
-use WPRelay\Tremendous\App\Services\Database;
-use WPRelay\Tremendous\App\Services\Request\Request;
-use WPRelay\Tremendous\App\Services\Request\Response;
+use RelayWP\Tremendous\App\Services\Database;
+use RelayWP\Tremendous\App\Services\Request\Request;
+use RelayWP\Tremendous\App\Services\Request\Response;
 use Valitron\Validator;
 
 trait ValidateHelper

@@ -2,9 +2,9 @@
 
 //All routes actions will be performed in Route::handleAuthRequest method.
 
-use WPRelay\Tremendous\Src\Controllers\Admin\ListController;
-use WPRelay\Tremendous\Src\Controllers\Admin\SettingsController;
-use WPRelay\Tremendous\Src\Controllers\LocalDataController;
+use RelayWP\Tremendous\Src\Controllers\Admin\ListController;
+use RelayWP\Tremendous\Src\Controllers\Admin\SettingsController;
+use RelayWP\Tremendous\Src\Controllers\LocalDataController;
 
 return [
     'get_local_data' => ['callable' => [LocalDataController::class, 'getLocalData']],

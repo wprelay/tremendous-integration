@@ -1,8 +1,8 @@
 <?php
 
-namespace WPRelay\Tremendous\App\Hooks;
+namespace RelayWP\Tremendous\App\Hooks;
 
-use WPRelay\Tremendous\App\Helpers\PluginHelper;
+use RelayWP\Tremendous\App\Helpers\PluginHelper;
 
 class RegisterHooks
 {

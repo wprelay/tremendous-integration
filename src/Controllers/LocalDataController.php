@@ -1,12 +1,12 @@
 <?php
 
-namespace WPRelay\Tremendous\Src\Controllers;
+namespace RelayWP\Tremendous\Src\Controllers;
 
 use Error;
-use WPRelay\Tremendous\App\Helpers\WordpressHelper;
-use WPRelay\Tremendous\App\Route;
-use WPRelay\Tremendous\App\Services\Request\Request;
-use WPRelay\Tremendous\App\Services\Request\Response;
+use RelayWP\Tremendous\App\Helpers\WordpressHelper;
+use RelayWP\Tremendous\App\Route;
+use RelayWP\Tremendous\App\Services\Request\Request;
+use RelayWP\Tremendous\App\Services\Request\Response;
 
 class LocalDataController
 {

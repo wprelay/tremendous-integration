@@ -1,11 +1,11 @@
 <?php
 
-namespace WPRelay\Tremendous\App\Services;
+namespace RelayWP\Tremendous\App\Services;
 
-use WPRelay\Tremendous\App\Exception\ModelNotFoundException;
-use WPRelay\Tremendous\App\Traits\Conditionable;
-use WPRelay\Tremendous\App\Traits\useScopes;
-use WPRelay\Tremendous\Src\Core\Models\Model;
+use RelayWP\Tremendous\App\Exception\ModelNotFoundException;
+use RelayWP\Tremendous\App\Traits\Conditionable;
+use RelayWP\Tremendous\App\Traits\useScopes;
+use RelayWP\Tremendous\Src\Core\Models\Model;
 
 class Database
 {

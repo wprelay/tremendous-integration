@@ -1,9 +1,9 @@
 <?php
 
-namespace WPRelay\Tremendous\App\Hooks;
+namespace RelayWP\Tremendous\App\Hooks;
 
-use WPRelay\Tremendous\App\Helpers\PluginHelper;
-use WPRelay\Tremendous\Src\Controllers\Admin\PageController;
+use RelayWP\Tremendous\App\Helpers\PluginHelper;
+use RelayWP\Tremendous\Src\Controllers\Admin\PageController;
 
 class AdminHooks extends RegisterHooks
 {

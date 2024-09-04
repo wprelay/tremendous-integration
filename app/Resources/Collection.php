@@ -1,9 +1,9 @@
 <?php
 
-namespace WPRelay\Tremendous\App\Resources;
+namespace RelayWP\Tremendous\App\Resources;
 
 
-use WPRelay\Tremendous\App\Services\Request\Response;
+use RelayWP\Tremendous\App\Services\Request\Response;
 
 class Collection
 {

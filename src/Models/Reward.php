@@ -1,6 +1,6 @@
 <?php
 
-namespace WPRelay\Tremendous\Src\Models;
+namespace RelayWP\Tremendous\Src\Models;
 
 class Reward extends Model
 {

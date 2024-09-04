@@ -1,8 +1,8 @@
 <?php
 
-namespace WPRelay\Tremendous\App\Services\Validation;
+namespace RelayWP\Tremendous\App\Services\Validation;
 
-use WPRelay\Tremendous\App\Services\Request\Request;
+use RelayWP\Tremendous\App\Services\Request\Request;
 
 interface FormRequest
 {
