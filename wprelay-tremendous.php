@@ -4,7 +4,7 @@
 /**
  * Plugin Name:         WPRelay - Tremendous
  * Description:          Gift Cards for WPRelay
- * Version:              0.0.7
+ * Version:              1.0.0
  * Requires at least:    5.9
  * Requires PHP:         7.3
  * Author:               WPRelay * Author URI:           https://www.wprelay.com
@@ -28,8 +28,8 @@ defined('WPR_TREMENDOUS_PLUGIN_URL') or define('WPR_TREMENDOUS_PLUGIN_URL', plug
 defined('WPR_TREMENDOUS_PLUGIN_FILE') or define('WPR_TREMENDOUS_PLUGIN_FILE', __FILE__);
 defined('WPR_TREMENDOUS_PLUGIN_NAME') or define('WPR_TREMENDOUS_PLUGIN_NAME', "WPRelay-Tremendous");
 defined('WPR_TREMENDOUS_PLUGIN_SLUG') or define('WPR_TREMENDOUS_PLUGIN_SLUG', "wprelay-tremendous");
-defined('WPR_TREMENDOUS_VERSION') or define('WPR_TREMENDOUS_VERSION', "0.0.7");
-defined('WPR_TREMENDOUS_PREFIX') or define('WPR_TREMENDOUS_PREFIX', "prefix_");
+defined('WPR_TREMENDOUS_VERSION') or define('WPR_TREMENDOUS_VERSION', "1.0.0");
+defined('WPR_TREMENDOUS_PREFIX') or define('WPR_TREMENDOUS_PREFIX', "wprelay_tremendous_");
 defined('WPR_TREMENDOUS_MAIN_PAGE') or define('WPR_TREMENDOUS_MAIN_PAGE', "wprelay-tremendous");
 
 /**
@@ -65,16 +65,25 @@ if (defined('WC_VERSION')) {
     });
 }
 
-if (!function_exists('wpr_check_is_wp_relay_pro_installed')) {
-    function wpr_check_is_wp_relay_pro_installed()
+if (!function_exists('wpr_check_is_wp_relay_installed')) {
+    function wpr_check_is_wp_relay_installed()
     {
         $plugin_path = trailingslashit(WP_PLUGIN_DIR) . 'wprelay-pro/wprelay-pro.php';
-        return in_array($plugin_path, wp_get_active_and_valid_plugins());
+
+        $pro_installed = in_array($plugin_path, wp_get_active_and_valid_plugins())
+            || (is_multisite() && in_array($plugin_path, wp_get_active_network_plugins()));
+
+        $plugin_path = trailingslashit(WP_PLUGIN_DIR) . 'relaywp/relaywp.php';
+
+        $core_installed = in_array($plugin_path, wp_get_active_and_valid_plugins())
+            || (is_multisite() && in_array($plugin_path, wp_get_active_network_plugins()));
+
+        return $core_installed || $pro_installed;
     }
 }
 
-if (function_exists('wpr_check_is_wp_relay_pro_installed')) {
-    if (!wpr_check_is_wp_relay_pro_installed()) {
+if (function_exists('wpr_check_is_wp_relay_installed')) {
+    if (!wpr_check_is_wp_relay_installed()) {
 
         $class = 'notice notice-warning';
         $name = WPR_TREMENDOUS_PLUGIN_NAME;
