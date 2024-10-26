@@ -121,14 +121,14 @@ class Tremendous extends RWPPayment
     public static function payoutFailed($payouts)
     {
         foreach ($payouts as $payout) {
-            do_action('rwp_payment_mark_as_failed', $payout->id, ['message' => 'Tremendous Payment Failed']);
+            do_action('rwpa_payment_mark_as_failed', $payout->id, ['message' => 'Tremendous Payment Failed']);
         }
     }
 
     public static function payoutSucceeded($payouts)
     {
         foreach ($payouts as $payout) {
-            do_action('rwp_payment_mark_as_succeeded', $payout->id, ['message' => 'Tremendous Payment Failed']);
+            do_action('rwpa_payment_mark_as_succeeded', $payout->id, ['message' => 'Tremendous Payment Failed']);
         }
     }
 
@@ -220,17 +220,17 @@ class Tremendous extends RWPPayment
 
             if ($status == 'success') {
                 error_log('Single reward Sending succeeded');
-                do_action('rwp_payment_mark_as_succeeded', $payout->id, ['message' => 'Payout Succeeded']);
+                do_action('rwpa_payment_mark_as_succeeded', $payout->id, ['message' => 'Payout Succeeded']);
                 return true;
             } else {
                 error_log('Sending Single reward Failed');
-                do_action('rwp_payment_mark_as_failed', $payout->id, ['message' => $error_message ?? 'Payout Failed via Tremendous']);
+                do_action('rwpa_payment_mark_as_failed', $payout->id, ['message' => $error_message ?? 'Payout Failed via Tremendous']);
                 return false;
             }
         } catch (\Error $error) {
             PluginHelper::logError("Error Occurred While Send Single Reward", [__CLASS__, __FUNCTION__], $error);
             if(isset($payout)) {
-                do_action('rwp_payment_mark_as_failed', $payout->id, ['message' => $error_message ?? 'Payout Failed via Tremendous']);
+                do_action('rwpa_payment_mark_as_failed', $payout->id, ['message' => $error_message ?? 'Payout Failed via Tremendous']);
             }
 
             return false;

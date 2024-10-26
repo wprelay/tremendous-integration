@@ -16,8 +16,8 @@
  * WC requires at least: 7.0
  * WC tested up to:      8.1
  *
- * WPRelay: 1.0.1
- * WPRelay Page Link: wprelay-tremendous
+ * Relay: 1.0.1
+ * Relay Page Link: wprelay-tremendous
  */
 
 
@@ -130,7 +130,7 @@ add_action('admin_head', function () {
     }
 }, 11);
 
-add_action('rwp_after_init', function () {
+add_action('rwpa_after_init', function () {
     if (class_exists('Puc_v4_Factory')) {
         $myUpdateChecker = \Puc_v4_Factory::buildUpdateChecker(
             'https://github.com/wprelay/tremendous-integration',

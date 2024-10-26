@@ -36,7 +36,6 @@ class Setup
      */
     public static function deactivate()
     {
-//        wp_clear_scheduled_hook('rwp_update_affiliate_coupons');
     }
 
     /**
