@@ -2,6 +2,8 @@
 
 namespace WPRelay\Tremendous\Src;
 
+defined('ABSPATH') or exit;
+
 use WPRelay\Tremendous\App\Services\Request\Response;
 use WPRelay\Tremendous\App\Services\Settings;
 
@@ -15,7 +17,6 @@ class DashboardController
         return Response::success([
             'data' => $_SERVER['SERVER_NAME']
         ]);
-
     }
-
 }
+

@@ -2,6 +2,8 @@
 
 namespace WPRelay\Tremendous\Src\Models;
 
+defined('ABSPATH') or exit;
+
 use WPRelay\Tremendous\App\Services\Database;
 use WPRelay\Tremendous\App\Traits\Conditionable;
 use WPRelay\Tremendous\App\Traits\ForwardCalls;
@@ -76,3 +78,4 @@ abstract class Model
         return dbDelta($query);
     }
 }
+

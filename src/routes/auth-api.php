@@ -2,6 +2,8 @@
 
 //All routes actions will be performed in Route::handleAuthRequest method.
 
+defined('ABSPATH') or exit;
+
 use WPRelay\Tremendous\Src\Controllers\Admin\ListController;
 use WPRelay\Tremendous\Src\Controllers\Admin\SettingsController;
 use WPRelay\Tremendous\Src\Controllers\LocalDataController;
@@ -13,3 +15,4 @@ return [
     'get_tremendous_settings' => ['callable' => [SettingsController::class, 'getSettings']],
     'tremendous_rewards_list' => ['callable' => [ListController::class, 'rewardsList']],
 ];
+

@@ -2,6 +2,8 @@
 
 namespace WPRelay\Tremendous\Src;
 
+defined('ABSPATH') or exit;
+
 use GuzzleHttp\Client;
 use WPRelay\Tremendous\App\Helpers\PluginHelper;
 use WPRelay\Tremendous\App\Services\Request\Response;
@@ -62,12 +64,12 @@ class TremendousClient
                 'Authorization' => "Bearer {$token}"
             ],
             'json' =>
-                [
-                    "payment" => [
-                        "funding_source_id" => "BALANCE"
-                    ],
-                    "rewards" => $rewards
-                ]
+            [
+                "payment" => [
+                    "funding_source_id" => "BALANCE"
+                ],
+                "rewards" => $rewards
+            ]
         ]);
 
         return $response;
@@ -84,7 +86,6 @@ class TremendousClient
         $this->setApiKey($api_key);
 
         return $api_key;
-
     }
 
     public function authenticate()
@@ -150,7 +151,6 @@ class TremendousClient
             }
 
             return $campaigns;
-
         } else {
             Response::error([
                 'message' => 'Unable to Fetch Campaigns'
@@ -189,7 +189,6 @@ class TremendousClient
             }
 
             return $funding_sources;
-
         } else {
             Response::error([
                 'message' => 'Unable to Fetch Funding Sources'
@@ -203,5 +202,5 @@ class TremendousClient
 
         return $this;
     }
-
 }
+

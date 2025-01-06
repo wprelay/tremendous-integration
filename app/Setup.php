@@ -2,6 +2,8 @@
 
 namespace WPRelay\Tremendous\App;
 
+defined('ABSPATH') or exit;
+
 use WPRelay\Tremendous\Src\Models\BatchPayout;
 use WPRelay\Tremendous\Src\Models\BatchPayoutItem;
 use WPRelay\Tremendous\Src\Models\MassPayout;
@@ -28,23 +30,18 @@ class Setup
      */
     public static function activate()
     {
-//code
+        //code
     }
 
     /**
      * Run plugin activation scripts
      */
-    public static function deactivate()
-    {
-    }
+    public static function deactivate() {}
 
     /**
      * Run plugin activation scripts
      */
-    public static function uninstall()
-    {
-
-    }
+    public static function uninstall() {}
 
     /**
      * Maybe run database migration
@@ -87,3 +84,4 @@ class Setup
         ];
     }
 }
+

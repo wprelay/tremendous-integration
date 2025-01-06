@@ -2,8 +2,11 @@
 
 namespace WPRelay\Tremendous\App\Services;
 
+defined('ABSPATH') or exit;
+
 use WPRelay\Tremendous\App\App;
 use WPRelay\Tremendous\App\Helpers\Functions;
+
 class View
 {
     public static function instance()
@@ -18,7 +21,8 @@ class View
 
     public function view($path, $data, $print = true)
     {
-        $file = WPR_TREMENDOUS_PLUGIN_PATH. 'resources/' . $path . '.php';
+        $file = WPR_TREMENDOUS_PLUGIN_PATH . 'resources/' . $path . '.php';
         return Functions::renderTemplate($file, $data);
     }
 }
+

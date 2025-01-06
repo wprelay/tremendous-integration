@@ -2,6 +2,8 @@
 
 namespace WPRelay\Tremendous\Src\Controllers\Admin;
 
+defined('ABSPATH') or exit;
+
 use WPRelay\Tremendous\App\Helpers\PluginHelper;
 use WPRelay\Tremendous\App\Services\Request\Request;
 use WPRelay\Tremendous\App\Services\Request\Response;
@@ -27,7 +29,7 @@ class SettingsController
                 'api_key' => $api_key,
                 'funding_source' => $funding_source,
             ]);
-        } catch (\Exception|\Error $exception) {
+        } catch (\Exception | \Error $exception) {
             PluginHelper::logError('Error Occurred While Processing', [__CLASS__, __FUNCTION__], $exception);
             return Response::error();
         }
@@ -59,7 +61,7 @@ class SettingsController
             $settings = json_encode(['tremendous_settings' => $settings]);
 
             update_option('wpr_tremendous_settings', $settings);
-        } catch (\Exception|\Error $exception) {
+        } catch (\Exception | \Error $exception) {
             PluginHelper::logError('Error Occurred While Processing', [__CLASS__, __FUNCTION__], $exception);
             return Response::error();
         }
@@ -92,8 +94,7 @@ class SettingsController
 
                 Response::error(json_decode($contents, true), 401);
             }
-
-        } catch (\Exception|\Error $exception) {
+        } catch (\Exception | \Error $exception) {
             PluginHelper::logError('Error Occurred While Processing', [__CLASS__, __FUNCTION__], $exception);
             return Response::error([
                 'message' => $exception->getMessage()
@@ -101,3 +102,4 @@ class SettingsController
         }
     }
 }
+

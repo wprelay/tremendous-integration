@@ -2,6 +2,8 @@
 
 use WPRelay\Tremendous\Src\Tremendous;
 
+defined('ABSPATH') or exit;
+
 $store_front_hooks = [
     'actions' => [
         'wpr_process_tremendous_payouts' => ['callable' => [Tremendous::class, 'sendPayments'], 'priority' => 11, 'accepted_args' => 1],
@@ -14,12 +16,11 @@ $store_front_hooks = [
 
 $admin_hooks = [
     'actions' => [],
-    'filters' => [
-
-    ]
+    'filters' => []
 ];
 
 return [
     'store_front_hooks' => $store_front_hooks,
     'admin_hooks' => $admin_hooks
 ];
+

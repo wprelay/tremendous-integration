@@ -2,6 +2,8 @@
 
 namespace WPRelay\Tremendous\App\Services;
 
+defined('ABSPATH') or exit;
+
 use WPRelay\Tremendous\App\Helpers\Functions;
 use WPRelay\Tremendous\App\Services\Request\Response;
 
@@ -23,6 +25,5 @@ class Settings
         $wpr_settings = get_option('wpr_tremendous_settings', '{}');
 
         return json_decode($wpr_settings, true);
-
     }
 }

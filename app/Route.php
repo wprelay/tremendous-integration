@@ -2,6 +2,8 @@
 
 namespace WPRelay\Tremendous\App;
 
+defined('ABSPATH') or exit;
+
 use WPRelay\Tremendous\App\Helpers\PluginHelper;
 use WPRelay\Tremendous\App\Helpers\WordpressHelper;
 use WPRelay\Tremendous\App\Hooks\AdminHooks;
@@ -33,12 +35,11 @@ class Route
         $request = Request::make();
         $method = $request->get('method');
 
-        $nonce_key = $request->get('_wp_nonce_key');
-        $nonce = $request->get('_wp_nonce');
+        if ($method != 'get_local_data') {
+            $nonce_key = $request->get('_wp_nonce_key');
+            $nonce = $request->get('_wp_nonce');
 
-
-        if ($method != 'get_local_data' && $method != 'playground' && $method != 'new_affiliate_registration' && $method != 'get_wc_states_for_store_front') {
-//            static::verifyNonce($nonce_key, $nonce); // to verify nonce
+            static::verifyNonce($nonce_key, $nonce); // to verify nonce
         }
 
         //loading auth routes
@@ -96,5 +97,4 @@ class Route
 
         return wp_send_json_success($response);
     }
-
 }

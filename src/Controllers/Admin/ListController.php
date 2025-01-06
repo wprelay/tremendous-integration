@@ -2,6 +2,8 @@
 
 namespace WPRelay\Tremendous\Src\Controllers\Admin;
 
+defined('ABSPATH') or exit;
+
 use Error;
 use WPRelay\Tremendous\App\Helpers\PluginHelper;
 use WPRelay\Tremendous\App\Resources\RewardItemCollection;
@@ -38,10 +40,10 @@ class ListController
                 ->get();
 
             RewardItemCollection::collection([$rewards, $totalCount, $perPage, $currentPage]);
-
         } catch (\Exception $exception) {
             PluginHelper::logError('Error Occurred While Fetching Tremendous Data', [__CLASS__, __FUNCTION__], $exception);
             return Response::error();
         }
     }
 }
+

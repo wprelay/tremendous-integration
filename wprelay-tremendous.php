@@ -1,6 +1,5 @@
 <?php
 
-
 /**
  * Plugin Name:         WPRelay - Tremendous
  * Description:          Gift Cards for WPRelay
@@ -73,7 +72,7 @@ if (!function_exists('wpr_check_is_wp_relay_installed')) {
         $pro_installed = in_array($plugin_path, wp_get_active_and_valid_plugins())
             || (is_multisite() && in_array($plugin_path, wp_get_active_network_plugins()));
 
-        $plugin_path = trailingslashit(WP_PLUGIN_DIR) . 'relaywp/relaywp.php';
+        $plugin_path = trailingslashit(WP_PLUGIN_DIR) . 'relay-affiliate-marketing/relay-affiliate-marketing.php';
 
         $core_installed = in_array($plugin_path, wp_get_active_and_valid_plugins())
             || (is_multisite() && in_array($plugin_path, wp_get_active_network_plugins()));
@@ -90,11 +89,11 @@ if (function_exists('wpr_check_is_wp_relay_installed')) {
         $status = 'warning';
         $message = __("Error you did not installed the WPRelay Plugin to work with {$name}", 'text-domain');
         add_action('admin_notices', function () use ($message, $status) {
-            ?>
+?>
             <div class="notice notice-<?php echo esc_attr($status); ?>">
                 <p><?php echo wp_kses_post($message); ?></p>
             </div>
-            <?php
+        <?php
         }, 1);
         return;
     }
@@ -111,7 +110,7 @@ if (class_exists('WPRelay\Tremendous\App\App')) {
 
     $app->bootstrap(); // to load the plugin
 } else {
-//    wp_die('Plugin is unable to find the App class.');
+    //    wp_die('Plugin is unable to find the App class.');
     return;
 }
 
@@ -122,15 +121,15 @@ add_action('admin_head', function () {
     if (in_array($page, array($main_page_name))) {
         ?>
         <script type="text/javascript">
-            jQuery(document).ready(function ($) {
+            jQuery(document).ready(function($) {
                 self = window;
             });
         </script>
-        <?php
+<?php
     }
 }, 11);
 
-add_action('rwpa_after_init', function () {
+add_action('rwpa_tremendous_after_init', function () {
     if (class_exists('Puc_v4_Factory')) {
         $myUpdateChecker = \Puc_v4_Factory::buildUpdateChecker(
             'https://github.com/wprelay/tremendous-integration',
@@ -140,4 +139,3 @@ add_action('rwpa_after_init', function () {
         $myUpdateChecker->getVcsApi()->enableReleaseAssets();
     }
 });
-

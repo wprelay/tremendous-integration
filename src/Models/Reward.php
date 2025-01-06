@@ -2,6 +2,8 @@
 
 namespace WPRelay\Tremendous\Src\Models;
 
+defined('ABSPATH') or exit;
+
 class Reward extends Model
 {
     protected static $table = 'rewards';

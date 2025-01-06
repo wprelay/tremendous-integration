@@ -2,6 +2,8 @@
 
 namespace WPRelay\Tremendous\App\Helpers;
 
+defined('ABSPATH') or exit;
+
 use WPRelay\Tremendous\App\Services\Request\Response;
 
 class Resource
@@ -10,6 +12,7 @@ class Resource
     {
         $response = (new static)->toArray(...$params);
 
-       return Response::success($response);
+        return Response::success($response);
     }
 }
+

@@ -2,6 +2,8 @@
 
 namespace WPRelay\Tremendous\App\Hooks;
 
+defined('ABSPATH') or exit;
+
 use WPRelay\Tremendous\App\Helpers\PluginHelper;
 
 class RegisterHooks
@@ -62,3 +64,4 @@ class RegisterHooks
         }
     }
 }
+

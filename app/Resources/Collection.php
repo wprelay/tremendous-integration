@@ -2,6 +2,8 @@
 
 namespace WPRelay\Tremendous\App\Resources;
 
+defined('ABSPATH') or exit;
+
 
 use WPRelay\Tremendous\App\Services\Request\Response;
 
@@ -19,3 +21,4 @@ class Collection
         return $response;
     }
 }
+

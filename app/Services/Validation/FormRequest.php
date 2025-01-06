@@ -2,6 +2,8 @@
 
 namespace WPRelay\Tremendous\App\Services\Validation;
 
+defined('ABSPATH') or exit;
+
 use WPRelay\Tremendous\App\Services\Request\Request;
 
 interface FormRequest
@@ -10,3 +12,4 @@ interface FormRequest
 
     public function messages(): array;
 }
+

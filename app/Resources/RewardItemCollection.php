@@ -2,6 +2,8 @@
 
 namespace WPRelay\Tremendous\App\Resources;
 
+defined('ABSPATH') or exit;
+
 class RewardItemCollection extends Collection
 {
     public function toArray($items, $totalCount, $perPage, $currentPage)
@@ -28,3 +30,4 @@ class RewardItemCollection extends Collection
         ];
     }
 }
+

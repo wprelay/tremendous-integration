@@ -1,5 +1,8 @@
 <?php
+
 namespace WPRelay\Tremendous\Src\Controllers\Admin;
+
+defined('ABSPATH') or exit;
 
 use WPRelay\Tremendous\App\Services\View;
 
@@ -15,8 +18,6 @@ class PageController
         echo View::render('admin');
     }
 
-    public static function localData()
-    {
-
-    }
+    public static function localData() {}
 }
+

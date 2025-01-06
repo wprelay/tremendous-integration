@@ -2,6 +2,8 @@
 
 namespace WPRelay\Tremendous\App\Hooks;
 
+defined('ABSPATH') or exit;
+
 use WPRelay\Tremendous\App\Helpers\PluginHelper;
 use WPRelay\Tremendous\App\Helpers\WordpressHelper;
 use WPRelay\Tremendous\App\Services\Settings;
@@ -21,12 +23,12 @@ class AssetsActions
     public static function enqueue()
     {
         add_action('admin_enqueue_scripts', [__CLASS__, 'addAdminPluginAssets']);
-//        add_action('wp_enqueue_scripts', [__CLASS__, 'addStoreFrontScripts']);
+        //        add_action('wp_enqueue_scripts', [__CLASS__, 'addStoreFrontScripts']);
     }
 
     public static function addAdminPluginAssets($hook)
     {
-        if (strpos($hook, WPR_TREMENDOUS_PLUGIN_SLUG) !== false) {
+        if (!empty($hook) && strpos($hook, WPR_TREMENDOUS_PLUGIN_SLUG) !== false) {
             $reactDistUrl = PluginHelper::getReactAssetURL();
             $resourceUrl = PluginHelper::getResourceURL();
 

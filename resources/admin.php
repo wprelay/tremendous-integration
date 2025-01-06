@@ -1,3 +1,6 @@
+<?php
+defined('ABSPATH') or exit;
+?>
 <div class="wrap">
     <div id="wp-relay-tremendous-main">
         //content rendered from react
@@ -6,7 +9,7 @@
 </div>
 
 <script>
-    jQuery(document).ready(function ($) {
+    jQuery(document).ready(function($) {
         // $('#wprelay-paypal-form').submit(function (e) {
         //     e.preventDefault();
         //     let details = new FormData(this)

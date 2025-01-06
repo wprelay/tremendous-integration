@@ -2,6 +2,7 @@
 
 namespace WPRelay\Tremendous\App\Hooks;
 
+defined('ABSPATH') or exit;
 
 class CustomHooks extends RegisterHooks
 {
@@ -10,3 +11,4 @@ class CustomHooks extends RegisterHooks
         static::registerHooks('custom-hooks.php');
     }
 }
+
