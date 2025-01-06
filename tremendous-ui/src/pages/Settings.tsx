@@ -85,8 +85,9 @@ const Settings = () => {
     setSaveChangesLoading(true);
 
     axiosClient
-      .post(`?action=${localState.ajax_name}`, {
-        method: "save_tremendous_settings",
+      .post(``, {
+        method: localState.ajax_name,
+        action: "save_tremendous_settings",
         _wp_nonce_key: "wpr_tremendous_nonce",
         _wp_nonce: localState?.nonces?.wpr_tremendous_nonce,
         ...settings,
@@ -122,7 +123,9 @@ const Settings = () => {
     const query = "?" + new URLSearchParams(queryParams).toString();
 
     axiosClient
-      .get(`${query}`)
+      .post(``, {
+        ...queryParams,
+      })
       .then((response) => {
         let data = response?.data?.data;
         setSettings(data);
@@ -353,4 +356,3 @@ const Settings = () => {
 };
 
 export default Settings;
-
