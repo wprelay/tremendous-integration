@@ -86,8 +86,8 @@ const Settings = () => {
 
     axiosClient
       .post(``, {
-        method: localState.ajax_name,
-        action: "save_tremendous_settings",
+        action: localState.ajax_name,
+        method: "save_tremendous_settings",
         _wp_nonce_key: "wpr_tremendous_nonce",
         _wp_nonce: localState?.nonces?.wpr_tremendous_nonce,
         ...settings,
@@ -299,7 +299,7 @@ const Settings = () => {
                       )}
                     </div>
                     <p className=" wrt-text-xs wrt-text-destructive wrt-pt-1.5">
-                      {errors?.client_secret ? errors.client_secret[0] : ""}
+                      {errors?.campaign_id ? errors.campaign_id[0] : ""}
                     </p>
                   </div>
                 </div>
@@ -342,7 +342,7 @@ const Settings = () => {
                       )}
                     </div>
                     <p className=" wrt-text-xs wrt-text-destructive wrt-pt-1.5">
-                      {errors?.client_secret ? errors.client_secret[0] : ""}
+                      {errors?.funding_source ? errors.funding_source[0] : ""}
                     </p>
                   </div>
                 </div>
