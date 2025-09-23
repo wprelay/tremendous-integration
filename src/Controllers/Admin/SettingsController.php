@@ -4,6 +4,7 @@ namespace WPRelay\Tremendous\Src\Controllers\Admin;
 
 defined('ABSPATH') or exit;
 
+use WPRelay\Tremendous\App\Helpers\Functions;
 use WPRelay\Tremendous\App\Helpers\PluginHelper;
 use WPRelay\Tremendous\App\Services\Request\Request;
 use WPRelay\Tremendous\App\Services\Request\Response;
@@ -39,8 +40,6 @@ class SettingsController
     {
         $request->validate([
             'sandbox_mode' => ['required'],
-            'campaign_id' => ['required'],
-            'funding_source' => ['required'],
             'api_key' => ['required'],
         ]);
 
@@ -48,11 +47,11 @@ class SettingsController
             $sandbox_mode = $request->get('sandbox_mode');
 
             $api_key = $request->get('api_key');
-            $campaign_id = $request->get('campaign_id');
-            $funding_source = $request->get('funding_source');
+            $campaign_id = $request->get('campaign_id', null);
+            $funding_source = $request->get('funding_source', null);
 
             $settings = [
-                'sandbox_mode' => (bool)$sandbox_mode,
+                'sandbox_mode' => TremendousClient::getBoolValue($sandbox_mode),
                 'campaign_id' => $campaign_id,
                 'api_key' => $api_key,
                 'funding_source' => $funding_source,
@@ -70,7 +69,7 @@ class SettingsController
     public static function verifyApiKey(Request $request)
     {
         $request->validate([
-            'api_key' => ['required']
+            'api_key' => ['required'],
         ]);
 
         try {
@@ -102,4 +101,3 @@ class SettingsController
         }
     }
 }
-

@@ -5,6 +5,7 @@ namespace WPRelay\Tremendous\Src;
 defined('ABSPATH') or exit;
 
 use GuzzleHttp\Client;
+use WPRelay\Tremendous\App\Helpers\Functions;
 use WPRelay\Tremendous\App\Helpers\PluginHelper;
 use WPRelay\Tremendous\App\Services\Request\Response;
 use WPRelay\Tremendous\App\Services\Settings;
@@ -107,7 +108,7 @@ class TremendousClient
 
     public static function isSandboxMode()
     {
-        return Settings::get('tremendous_settings.sandbox_mode') ?? true;
+        return static::getBoolValue(Settings::get('tremendous_settings.sandbox_mode') ?? true);
     }
 
     public static function getSandboxEndpoint()
@@ -202,5 +203,21 @@ class TremendousClient
 
         return $this;
     }
-}
 
+    public static function getBoolValue($value)
+    {
+        if ($value === 'false') return false;
+
+        if ($value === 'true') return true;
+
+        if ($value === '1') return true;
+
+        if ($value === '0') return false;
+
+        if ($value === 1) return true;
+
+        if ($value === 0) return false;
+
+        return (bool)$value;
+    }
+}
