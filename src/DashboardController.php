@@ -1,9 +1,11 @@
 <?php
 
-namespace RelayWP\Tremendous\Src;
+namespace WPRelay\Tremendous\Src;
 
-use RelayWP\Tremendous\App\Services\Request\Response;
-use RelayWP\Tremendous\App\Services\Settings;
+defined('ABSPATH') or exit;
+
+use WPRelay\Tremendous\App\Services\Request\Response;
+use WPRelay\Tremendous\App\Services\Settings;
 
 class DashboardController
 {
@@ -15,7 +17,6 @@ class DashboardController
         return Response::success([
             'data' => $_SERVER['SERVER_NAME']
         ]);
-
     }
-
 }
+

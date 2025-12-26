@@ -1,10 +1,9 @@
 <?php
 
-
 /**
- * Plugin Name:         RelayWP - Tremendous
- * Description:          Gift Cards for RelayWP
- * Version:              0.0.7
+ * Plugin Name:         WPRelay - Tremendous
+ * Description:          Gift Cards for WPRelay
+ * Version:              1.0.0
  * Requires at least:    5.9
  * Requires PHP:         7.3
  * Author:               WPRelay * Author URI:           https://www.wprelay.com
@@ -16,8 +15,8 @@
  * WC requires at least: 7.0
  * WC tested up to:      8.1
  *
- * RelayWP: 1.0.5
- * RelayWP Page Link: relaywp-tremendous
+ * Relay: 1.0.1
+ * Relay Page Link: wprelay-tremendous
  */
 
 
@@ -26,11 +25,11 @@ defined('ABSPATH') or exit;
 defined('WPR_TREMENDOUS_PLUGIN_PATH') or define('WPR_TREMENDOUS_PLUGIN_PATH', plugin_dir_path(__FILE__));
 defined('WPR_TREMENDOUS_PLUGIN_URL') or define('WPR_TREMENDOUS_PLUGIN_URL', plugin_dir_url(__FILE__));
 defined('WPR_TREMENDOUS_PLUGIN_FILE') or define('WPR_TREMENDOUS_PLUGIN_FILE', __FILE__);
-defined('WPR_TREMENDOUS_PLUGIN_NAME') or define('WPR_TREMENDOUS_PLUGIN_NAME', "RelayWP-Tremendous");
-defined('WPR_TREMENDOUS_PLUGIN_SLUG') or define('WPR_TREMENDOUS_PLUGIN_SLUG', "relaywp-tremendous");
-defined('WPR_TREMENDOUS_VERSION') or define('WPR_TREMENDOUS_VERSION', "0.0.7");
-defined('WPR_TREMENDOUS_PREFIX') or define('WPR_TREMENDOUS_PREFIX', "prefix_");
-defined('WPR_TREMENDOUS_MAIN_PAGE') or define('WPR_TREMENDOUS_MAIN_PAGE', "relaywp-tremendous");
+defined('WPR_TREMENDOUS_PLUGIN_NAME') or define('WPR_TREMENDOUS_PLUGIN_NAME', "WPRelay-Tremendous");
+defined('WPR_TREMENDOUS_PLUGIN_SLUG') or define('WPR_TREMENDOUS_PLUGIN_SLUG', "wprelay-tremendous");
+defined('WPR_TREMENDOUS_VERSION') or define('WPR_TREMENDOUS_VERSION', "1.0.0");
+defined('WPR_TREMENDOUS_PREFIX') or define('WPR_TREMENDOUS_PREFIX', "wprelay_tremendous_");
+defined('WPR_TREMENDOUS_MAIN_PAGE') or define('WPR_TREMENDOUS_MAIN_PAGE', "wprelay-tremendous");
 
 /**
  * Required PHP Version
@@ -68,13 +67,17 @@ if (defined('WC_VERSION')) {
 if (!function_exists('wpr_check_is_wp_relay_installed')) {
     function wpr_check_is_wp_relay_installed()
     {
-        $plugin_path = trailingslashit(WP_PLUGIN_DIR) . 'relaywp/relaywp.php';
-        $core_intalled = in_array($plugin_path, wp_get_active_and_valid_plugins());
+        $plugin_path = trailingslashit(WP_PLUGIN_DIR) . 'wprelay-pro/wprelay-pro.php';
 
-        $plugin_path = trailingslashit(WP_PLUGIN_DIR) . 'relaywp-pro/relaywp-pro.php';
-        $pro_installed = in_array($plugin_path, wp_get_active_and_valid_plugins());
+        $pro_installed = in_array($plugin_path, wp_get_active_and_valid_plugins())
+            || (is_multisite() && in_array($plugin_path, wp_get_active_network_plugins()));
 
-        return $core_intalled || $pro_installed;
+        $plugin_path = trailingslashit(WP_PLUGIN_DIR) . 'relay-affiliate-marketing/relay-affiliate-marketing.php';
+
+        $core_installed = in_array($plugin_path, wp_get_active_and_valid_plugins())
+            || (is_multisite() && in_array($plugin_path, wp_get_active_network_plugins()));
+
+        return $core_installed || $pro_installed;
     }
 }
 
@@ -84,13 +87,13 @@ if (function_exists('wpr_check_is_wp_relay_installed')) {
         $class = 'notice notice-warning';
         $name = WPR_TREMENDOUS_PLUGIN_NAME;
         $status = 'warning';
-        $message = __("Error you did not installed the RelayWP Plugin to work with {$name}", 'text-domain');
+        $message = __("Error you did not installed the WPRelay Plugin to work with {$name}", 'text-domain');
         add_action('admin_notices', function () use ($message, $status) {
-            ?>
+?>
             <div class="notice notice-<?php echo esc_attr($status); ?>">
                 <p><?php echo wp_kses_post($message); ?></p>
             </div>
-            <?php
+        <?php
         }, 1);
         return;
     }
@@ -99,15 +102,15 @@ if (function_exists('wpr_check_is_wp_relay_installed')) {
 //Loading woo-commerce action schedular
 require_once(plugin_dir_path(__FILE__) . '../woocommerce/packages/action-scheduler/action-scheduler.php');
 
-if (class_exists('RelayWP\Tremendous\App\App')) {
+if (class_exists('WPRelay\Tremendous\App\App')) {
     //If the Directory Exists it means it's a pro pack;
     //Check Whether it is PRO USER
 
-    $app = \RelayWP\Tremendous\App\App::make();
+    $app = \WPRelay\Tremendous\App\App::make();
 
     $app->bootstrap(); // to load the plugin
 } else {
-//    wp_die('Plugin is unable to find the App class.');
+    //    wp_die('Plugin is unable to find the App class.');
     return;
 }
 
@@ -118,22 +121,21 @@ add_action('admin_head', function () {
     if (in_array($page, array($main_page_name))) {
         ?>
         <script type="text/javascript">
-            jQuery(document).ready(function ($) {
+            jQuery(document).ready(function($) {
                 self = window;
             });
         </script>
-        <?php
+<?php
     }
 }, 11);
 
-add_action('wpr_tremendous_after_init', function () {
-    if (class_exists('Puc_v4_Factory')) {
-        $myUpdateChecker = \Puc_v4_Factory::buildUpdateChecker(
+add_action('rwpa_tremendous_after_init', function () {
+    if (class_exists('YahnisElsts\PluginUpdateChecker\v5\PucFactory')) {
+        $myUpdateChecker = \YahnisElsts\PluginUpdateChecker\v5\PucFactory::buildUpdateChecker(
             'https://github.com/wprelay/tremendous-integration',
             __FILE__,
-            'relaywp-tremendous'
+            'wprelay-tremendous'
         );
         $myUpdateChecker->getVcsApi()->enableReleaseAssets();
     }
 });
-

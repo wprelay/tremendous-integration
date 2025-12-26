@@ -1,6 +1,8 @@
 <?php
 
-namespace RelayWP\Tremendous\Src\Models;
+namespace WPRelay\Tremendous\Src\Models;
+
+defined('ABSPATH') or exit;
 
 class Reward extends Model
 {

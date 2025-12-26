@@ -1,13 +1,15 @@
 <?php
 
-namespace RelayWP\Tremendous\App;
+namespace WPRelay\Tremendous\App;
 
-use RelayWP\Tremendous\Src\Models\BatchPayout;
-use RelayWP\Tremendous\Src\Models\BatchPayoutItem;
-use RelayWP\Tremendous\Src\Models\MassPayout;
-use RelayWP\Tremendous\Src\Models\Model;
-use RelayWP\Tremendous\Src\Models\Reward;
-use RelayWP\Tremendous\Src\Models\WebhookEvent;
+defined('ABSPATH') or exit;
+
+use WPRelay\Tremendous\Src\Models\BatchPayout;
+use WPRelay\Tremendous\Src\Models\BatchPayoutItem;
+use WPRelay\Tremendous\Src\Models\MassPayout;
+use WPRelay\Tremendous\Src\Models\Model;
+use WPRelay\Tremendous\Src\Models\Reward;
+use WPRelay\Tremendous\Src\Models\WebhookEvent;
 
 class Setup
 {
@@ -28,24 +30,18 @@ class Setup
      */
     public static function activate()
     {
-//code
+        //code
     }
 
     /**
      * Run plugin activation scripts
      */
-    public static function deactivate()
-    {
-//        wp_clear_scheduled_hook('rwp_update_affiliate_coupons');
-    }
+    public static function deactivate() {}
 
     /**
      * Run plugin activation scripts
      */
-    public static function uninstall()
-    {
-
-    }
+    public static function uninstall() {}
 
     /**
      * Maybe run database migration
@@ -88,3 +84,4 @@ class Setup
         ];
     }
 }
+

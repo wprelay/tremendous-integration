@@ -1,6 +1,8 @@
 <?php
 
-namespace RelayWP\Tremendous\App\Services\Request;
+namespace WPRelay\Tremendous\App\Services\Request;
+
+defined('ABSPATH') or exit;
 
 class Response
 {
@@ -15,3 +17,4 @@ class Response
         return wp_send_json_error($data, $status);
     }
 }
+

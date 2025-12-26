@@ -1,7 +1,9 @@
 <?php
 
+namespace WPRelay\Tremendous\App\Services\Request;
 
-namespace RelayWP\Tremendous\App\Services\Request;
+defined('ABSPATH') or exit;
+
 class ParameterBag
 {
     /**

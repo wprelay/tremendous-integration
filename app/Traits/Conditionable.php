@@ -1,7 +1,8 @@
 <?php
 
-namespace RelayWP\Tremendous\App\Traits;
+namespace WPRelay\Tremendous\App\Traits;
 
+defined('ABSPATH') or exit;
 
 trait Conditionable
 {
@@ -43,3 +44,4 @@ trait Conditionable
         return $this;
     }
 }
+

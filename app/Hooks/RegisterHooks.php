@@ -1,8 +1,10 @@
 <?php
 
-namespace RelayWP\Tremendous\App\Hooks;
+namespace WPRelay\Tremendous\App\Hooks;
 
-use RelayWP\Tremendous\App\Helpers\PluginHelper;
+defined('ABSPATH') or exit;
+
+use WPRelay\Tremendous\App\Helpers\PluginHelper;
 
 class RegisterHooks
 {
@@ -62,3 +64,4 @@ class RegisterHooks
         }
     }
 }
+

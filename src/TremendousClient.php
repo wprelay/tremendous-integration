@@ -1,11 +1,14 @@
 <?php
 
-namespace RelayWP\Tremendous\Src;
+namespace WPRelay\Tremendous\Src;
+
+defined('ABSPATH') or exit;
 
 use GuzzleHttp\Client;
-use RelayWP\Tremendous\App\Helpers\PluginHelper;
-use RelayWP\Tremendous\App\Services\Request\Response;
-use RelayWP\Tremendous\App\Services\Settings;
+use WPRelay\Tremendous\App\Helpers\Functions;
+use WPRelay\Tremendous\App\Helpers\PluginHelper;
+use WPRelay\Tremendous\App\Services\Request\Response;
+use WPRelay\Tremendous\App\Services\Settings;
 
 class TremendousClient
 {
@@ -62,12 +65,12 @@ class TremendousClient
                 'Authorization' => "Bearer {$token}"
             ],
             'json' =>
-                [
-                    "payment" => [
-                        "funding_source_id" => "BALANCE"
-                    ],
-                    "rewards" => $rewards
-                ]
+            [
+                "payment" => [
+                    "funding_source_id" => "BALANCE"
+                ],
+                "rewards" => $rewards
+            ]
         ]);
 
         return $response;
@@ -84,7 +87,6 @@ class TremendousClient
         $this->setApiKey($api_key);
 
         return $api_key;
-
     }
 
     public function authenticate()
@@ -106,7 +108,7 @@ class TremendousClient
 
     public static function isSandboxMode()
     {
-        return Settings::get('tremendous_settings.sandbox_mode') ?? true;
+        return static::getBoolValue(Settings::get('tremendous_settings.sandbox_mode') ?? true);
     }
 
     public static function getSandboxEndpoint()
@@ -150,7 +152,6 @@ class TremendousClient
             }
 
             return $campaigns;
-
         } else {
             Response::error([
                 'message' => 'Unable to Fetch Campaigns'
@@ -189,7 +190,6 @@ class TremendousClient
             }
 
             return $funding_sources;
-
         } else {
             Response::error([
                 'message' => 'Unable to Fetch Funding Sources'
@@ -204,4 +204,20 @@ class TremendousClient
         return $this;
     }
 
+    public static function getBoolValue($value)
+    {
+        if ($value === 'false') return false;
+
+        if ($value === 'true') return true;
+
+        if ($value === '1') return true;
+
+        if ($value === '0') return false;
+
+        if ($value === 1) return true;
+
+        if ($value === 0) return false;
+
+        return (bool)$value;
+    }
 }

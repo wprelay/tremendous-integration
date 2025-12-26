@@ -1,12 +1,14 @@
 <?php
 
-namespace RelayWP\Tremendous\Src\Controllers;
+namespace WPRelay\Tremendous\Src\Controllers;
+
+defined('ABSPATH') or exit;
 
 use Error;
-use RelayWP\Tremendous\App\Helpers\WordpressHelper;
-use RelayWP\Tremendous\App\Route;
-use RelayWP\Tremendous\App\Services\Request\Request;
-use RelayWP\Tremendous\App\Services\Request\Response;
+use WPRelay\Tremendous\App\Helpers\WordpressHelper;
+use WPRelay\Tremendous\App\Route;
+use WPRelay\Tremendous\App\Services\Request\Request;
+use WPRelay\Tremendous\App\Services\Request\Response;
 
 class LocalDataController
 {
@@ -18,6 +20,7 @@ class LocalDataController
 
             $localData = [
                 'plugin_name' => WPR_TREMENDOUS_PLUGIN_NAME,
+                'relay_plugin_slug' => RWPA_PLUGIN_SLUG,
                 'user' => [
                     'nick_name' => $currentUserData->user_nicename,
                     'email' => $currentUserData->user_email,
@@ -25,7 +28,7 @@ class LocalDataController
                     'is_admin' => $currentUserData->caps['administrator']
                 ],
                 'nonces' => [
-                    'wpr_tremendous_nonce' => WordpressHelper::createNonce('tremendous_nonce'),
+                    'wpr_tremendous_nonce' => WordpressHelper::createNonce('wpr_tremendous_nonce'),
                 ],
                 'home_url' => get_home_url(),
                 'admin_url' => admin_url(),
@@ -34,15 +37,14 @@ class LocalDataController
                 'version' => WPR_TREMENDOUS_VERSION,
             ];
 
-            $localize = apply_filters('wpr_tremendous_local_data', $localData);
+            $localize = apply_filters('rwpa_tremendous_local_data', $localData);
 
             return Response::success($localize);
-        } catch (\Exception|Error $exception) {
+        } catch (\Exception | Error $exception) {
 
             return Response::error([
                 'message' => 'Unable to Fetch the Local Data'
             ]);
         }
     }
-
 }

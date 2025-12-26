@@ -2,9 +2,11 @@
 
 //All routes actions will be performed in Route::handleAuthRequest method.
 
-use RelayWP\Tremendous\Src\Controllers\Admin\ListController;
-use RelayWP\Tremendous\Src\Controllers\Admin\SettingsController;
-use RelayWP\Tremendous\Src\Controllers\LocalDataController;
+defined('ABSPATH') or exit;
+
+use WPRelay\Tremendous\Src\Controllers\Admin\ListController;
+use WPRelay\Tremendous\Src\Controllers\Admin\SettingsController;
+use WPRelay\Tremendous\Src\Controllers\LocalDataController;
 
 return [
     'get_local_data' => ['callable' => [LocalDataController::class, 'getLocalData']],
@@ -13,3 +15,4 @@ return [
     'get_tremendous_settings' => ['callable' => [SettingsController::class, 'getSettings']],
     'tremendous_rewards_list' => ['callable' => [ListController::class, 'rewardsList']],
 ];
+

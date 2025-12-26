@@ -1,33 +1,19 @@
 <?php
 
-namespace RelayWP\Tremendous\App\Services\Request;
+namespace WPRelay\Tremendous\App\Services\Request;
 
+use Valitron\Validator;
 
-use WPRelay\Tremendous\App\Helpers\Functions;
-use WPRelay\Tremendous\App\Services\Validation\ValidateHelper;
+defined('ABSPATH') or exit;
 
 class Request
 {
-    use ValidateHelper;
 
-    protected $query;
-    protected $post;
-    protected $cookies;
+    public static $validator;
 
-    public static $validator = null;
+    public $data = [];
 
-    public static $availableRules = [
-        'required',
-        'string',
-        'in',
-        'boolean',
-        'min',
-        'max',
-        'array',
-        'boolean',
-        'accepted',
-        'date'
-    ];
+    protected $customRuleInstance;
 
     protected static $sanitizeCallbacks = [
         'text' => 'sanitize_text_field',
@@ -51,105 +37,115 @@ class Request
         'array' => [__CLASS__, 'sanitizeArray'],
     ];
 
-    public function __construct()
-    {
-        [$get, $post] = $this->getInputs();
-        $this->initialize($get, $post, $_COOKIE);
-    }
-
     protected static $request;
 
-    public static function make(): Request
+    public function __construct()
     {
-        if (!isset(self::$request)) {
-            return self::$request = new self();
+        // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+        $this->data = array_merge($_GET, $_POST);
+    }
+
+    public static function getRequest()
+    {
+        return static::$request;
+    }
+
+    public static function getSanitizedUserInput($data)
+    {
+        return static::sanitizeUserData($data, 'array');
+    }
+
+    public static function make()
+    {
+        if (isset(static::$request)) {
+            return static::$request;
         }
 
-        return self::$request;
+        static::$request = new self();
+        return static::$request;
     }
 
-    private function initialize($get = [], $post = [], $cookies = [])
+    public function setCustomRuleInstance($object)
     {
-        $this->query = new InputBag($get);
-        $this->post = new InputBag($post);
-        $this->cookies = new InputBag($cookies);
+        if ($object instanceof Rules) {
+            $this->customRuleInstance = $object;
+        } else {
+            throw new \Exception("Custom Rule Class must be instance  Rules");
+        }
+
+        return $this;
     }
 
-    public function get($key, $default = null, $type = 'text')
+    private static function sanitizeUserData($data, $type)
     {
-        $value = $this->getFromRequest($key, $default);
-
-        $type = gettype($value);
+        $type = $type ?: gettype($data);
 
         if (!in_array($type, array_keys(static::$sanitizeCallbacks))) {
             throw new \UnexpectedValueException('The sanitization Type is Not Present in the request class');
         }
 
-        return call_user_func(static::$sanitizeCallbacks[$type], $value);
+        return call_user_func(static::$sanitizeCallbacks[$type], $data);
     }
 
-    public function getFromRequest($key, $default = null)
+    public static function sanitize($value, $type)
     {
-        if ($this->query->has($key)) {
-            return $this->query->get($key);
-        } else if ($this->post->has($key)) {
-            return $this->post->get($key);
-        } else {
-            $value = $this->all();
-        }
+        //sanitize directly if neeed
+    }
+
+    public function get($key, $default = null, $type = 'text')
+    {
+        $value = Helper::dataGet($this->data, $key, $default);
 
         if (is_array($value)) {
-            return Functions::dataGet($value, $key, $default);
-        } else {
-            return $value;
+            $type = 'array';
         }
+
+        $value = call_user_func(static::$sanitizeCallbacks[$type], $value);
+
+        if (is_string($value)) {
+            return $this->filterXss($value);
+        }
+
+        return $value;
+    }
+
+    public function getOriginal($key, $default = null, $type = 'text')
+    {
+        return Helper::dataGet($this->data, $key, $default);
+    }
+
+    public static function cookie($key, $default = null)
+    {
+        if (isset($_COOKIE[$key])) {
+            return $_COOKIE[$key];
+        }
+
+        return $default;
     }
 
 
-    public function addError($key, $message)
+    public static function session($key, $default = null)
     {
-        $this->errors[$key] = $message;
+        if (isset($_SESSION[$key])) {
+            return $_SESSION[$key];
+        }
+
+        return $default;
+    }
+
+    public static function server($key, $default = null)
+    {
+        if (isset($_SERVER[$key])) {
+            return $_SERVER[$key];
+        }
+
+        return $default;
     }
 
     public function all()
     {
-        return array_merge($this->query->all(), $this->post->all(), $this->cookies->all());
-    }
-
-    private function getInputs()
-    {
-        $method = $_SERVER['REQUEST_METHOD'];
-        $get = [];
-        $post = [];
-        switch (strtoupper($method)) {
-            case 'GET':
-                $get = $_GET;
-            case 'POST':
-            case 'PUT':
-            case 'PATCH':
-            case 'DELETE':
-                $post = $this->getUserInputs();
-        }
-
-        return [$get ?? [], $post ?? []];
-    }
-
-    private function getUserInputs()
-    {
-        if (!isset($_SERVER['CONTENT_TYPE'])) {
-            $_SERVER['CONTENT_TYPE'] = 'application/x-www-form-urlencoded';
-        }
-
-        if ($_SERVER['CONTENT_TYPE'] == 'application/x-www-form-urlencoded' || strpos($_SERVER['CONTENT_TYPE'], 'application/x-www-form-urlencoded') !== false) {
-            $post = $_POST;
-        } else {
-            $json = file_get_contents('php://input');
-
-            $data = json_decode($json, true);
-            $post = $data;
-        }
-
-        return $post;
+        // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+        return array_merge($_GET, $_POST);
     }
 
     public static function collapse($array)
@@ -167,8 +163,117 @@ class Request
         return array_merge([], ...$results);
     }
 
-    public static function sanitizeArray($value)
+    private static function sanitizeArray($value)
     {
-        return $value;
+        return static::sanitizeArrayRecursively($value);
+    }
+
+    private static function sanitizeArrayRecursively($arr)
+    {
+        $newArr = array();
+
+        foreach ($arr as $key => $value) {
+            $newArr[$key] = (is_array($value) ? static::sanitizeArrayRecursively($value) : sanitize_text_field($value));
+        }
+
+        return $newArr;
+    }
+
+    public function getMessage($field, $rule_name, $messages)
+    {
+        $message_key = "{$field}.{$rule_name}";
+
+        if (isset($messages[$message_key])) {
+            return $messages[$message_key];
+        }
+
+        return null;
+    }
+
+    public function validate($object)
+    {
+        if (is_array($object)) {
+            $rules_array = $object;
+            $messages = [];
+        } else {
+            $rules_array = $object->rules($this);
+            $messages = $object->messages();
+        }
+
+        $validator = $this->getValidator();
+
+        foreach ($rules_array as $field => $rules) {
+            foreach ($rules as $rule) {
+                if (is_string($rule)) {
+                    $message = $this->getMessage($field, $rule, $messages);
+                    $message ? $validator->rule($rule, $field)->message($message) : $validator->rule($rule, $field);
+                } else if (is_array($rule)) {
+                    $message = $this->getMessage($field, $rule[0], $messages);
+
+                    if (is_array($rule[1])) {
+                        $message ? $validator->rule($rule[0], $field, $rule[1])->message($message) : $validator->rule($rule[0], $field, $rule[1]);
+                    } else {
+                        $rest = $rule;
+                        //this will remove and rearrange the index
+                        array_shift($rest);
+                        $message ? $validator->rule($rule[0], $field, ...$rest)->message($message) : $validator->rule($rule[0], $field, ...$rest);
+                    }
+                }
+            }
+        }
+
+        if (!$validator->validate()) {
+            $errors = $validator->errors();
+            Response::success($errors, 422);
+        }
+    }
+
+    public function getValidator()
+    {
+        if (is_object(Request::$validator)) {
+            return Request::$validator;
+        }
+
+        $data = $this->all();
+
+        Request::$validator = new Validator($data);
+
+        $this->addCustomRules();
+
+        return Request::$validator;
+    }
+
+    public function addCustomRules()
+    {
+        if ($this->customRuleInstance instanceof Rules) {
+            $this->customRuleInstance->addCustomRules();
+        }
+    }
+
+    public function filterXss(string $data): string
+    {
+        // Fix &entity\n;
+        $data = str_replace(['&amp;', '&lt;', '&gt;'], ['&amp;amp;', '&amp;lt;', '&amp;gt;'], $data);
+        $data = preg_replace('/(&#*\w+)[\x00-\x20]+;/u', '$1;', $data);
+        $data = preg_replace('/(&#x*[0-9A-F]+);*/iu', '$1;', $data);
+        $data = html_entity_decode($data, ENT_COMPAT, 'UTF-8');
+
+        // Remove any attribute starting with "on" or xmlns
+        $data = preg_replace('#(<[^>]+?[\x00-\x20"\'])(?:on|xmlns)[^>]*+>#iu', '$1>', $data);
+
+        // Remove javascript: and vbscript: protocols
+        $data = preg_replace('#([a-z]*)[\x00-\x20]*=[\x00-\x20]*([`\'"]*)[\x00-\x20]*j[\x00-\x20]*a[\x00-\x20]*v[\x00-\x20]*a[\x00-\x20]*s[\x00-\x20]*c[\x00-\x20]*r[\x00-\x20]*i[\x00-\x20]*p[\x00-\x20]*t[\x00-\x20]*:#iu', '$1=$2nojavascript...', $data);
+        $data = preg_replace('#([a-z]*)[\x00-\x20]*=([\'"]*)[\x00-\x20]*v[\x00-\x20]*b[\x00-\x20]*s[\x00-\x20]*c[\x00-\x20]*r[\x00-\x20]*i[\x00-\x20]*p[\x00-\x20]*t[\x00-\x20]*:#iu', '$1=$2novbscript...', $data);
+        $data = preg_replace('#([a-z]*)[\x00-\x20]*=([\'"]*)[\x00-\x20]*-moz-binding[\x00-\x20]*:#u', '$1=$2nomozbinding...', $data);
+
+        // Remove namespaced elements (we do not need them)
+        $data = preg_replace('#</*\w+:\w[^>]*+>#i', '', $data);
+
+        // Remove really unwanted tags
+        do {
+            $old_data = $data;
+            $data = preg_replace('#</*(?:applet|b(?:ase|gsound|link)|embed|frame(?:set)?|i(?:frame|layer)|l(?:ayer|ink)|meta|object|s(?:cript|tyle)|title|xml)[^>]*+>#i', '', $data);
+        } while ($old_data !== $data);
+        return is_string($data) ? $data : '';
     }
 }

@@ -1,12 +1,13 @@
 {
-    "name": "relaywp/tremendous",
-    "autoload": {
-        "psr-4": {
-            "RelayWP\\Tremendous\\Src\\": "src/",
-            "RelayWP\\Tremendous\\App\\": "app/"
-        }
-    },
-    "require": {
-        "guzzlehttp/guzzle": "7.0.*"
+  "name": "wprelay/tremendous",
+  "autoload": {
+    "psr-4": {
+      "WPRelay\\Tremendous\\Src\\": "src/",
+      "WPRelay\\Tremendous\\App\\": "app/"
     }
+  },
+  "require": {
+    "vlucas/valitron": "^1.4",
+    "guzzlehttp/guzzle": "7.0.*"
+  }
 }

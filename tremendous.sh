@@ -4,7 +4,7 @@ pack_type=${1:-pro}
 echo "Pack Type: $pack_type"
 
 
-echo "RelayWP tremendous"
+echo "WPRelay tremendous"
 current_dir="$PWD"
 react_folder_path=$current_dir"/tremendous-ui"
 
@@ -61,9 +61,12 @@ zip_folder() {
   mkdir -p $pack_compress_folder
   cd "$pack_compress_folder"
 
+
   zip_name="wprelay-tremendous"
 
-  zip -r "$zip_name".zip $zip_name -x "*/.*" -q 2> zip_error.log
+
+
+  zip -r "$zip_name".zip $zip_name -q 2> zip_error.log
   echo "Zip Created"
 }
 

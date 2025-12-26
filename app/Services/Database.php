@@ -1,11 +1,13 @@
 <?php
 
-namespace RelayWP\Tremendous\App\Services;
+namespace WPRelay\Tremendous\App\Services;
 
-use RelayWP\Tremendous\App\Exception\ModelNotFoundException;
-use RelayWP\Tremendous\App\Traits\Conditionable;
-use RelayWP\Tremendous\App\Traits\useScopes;
-use RelayWP\Tremendous\Src\Core\Models\Model;
+defined('ABSPATH') or exit;
+
+use WPRelay\Tremendous\App\Exception\ModelNotFoundException;
+use WPRelay\Tremendous\App\Traits\Conditionable;
+use WPRelay\Tremendous\App\Traits\useScopes;
+use WPRelay\Tremendous\Src\Core\Models\Model;
 
 class Database
 {
@@ -197,7 +199,6 @@ class Database
         }
 
         return $this->getSingleRow();
-
     }
 
     public function firstOrFail()
@@ -314,7 +315,7 @@ class Database
             case 'get_results':
             case 'update':
             case 'insert':
-            case 'delete' :
+            case 'delete':
                 $errorType = false;
                 break;
         }

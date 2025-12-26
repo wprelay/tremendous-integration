@@ -1,9 +1,11 @@
 <?php
 
-namespace RelayWP\Tremendous\App\Resources;
+namespace WPRelay\Tremendous\App\Resources;
+
+defined('ABSPATH') or exit;
 
 
-use RelayWP\Tremendous\App\Services\Request\Response;
+use WPRelay\Tremendous\App\Services\Request\Response;
 
 class Collection
 {
@@ -19,3 +21,4 @@ class Collection
         return $response;
     }
 }
+

@@ -1,8 +1,10 @@
 <?php
 
-namespace RelayWP\Tremendous\App\Services\Validation;
+namespace WPRelay\Tremendous\App\Services\Validation;
 
-use RelayWP\Tremendous\App\Services\Request\Request;
+defined('ABSPATH') or exit;
+
+use WPRelay\Tremendous\App\Services\Request\Request;
 
 interface FormRequest
 {
@@ -10,3 +12,4 @@ interface FormRequest
 
     public function messages(): array;
 }
+

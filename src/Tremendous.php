@@ -1,16 +1,15 @@
 <?php
 
-namespace RelayWP\Tremendous\Src;
+namespace WPRelay\Tremendous\Src;
+
+defined('ABSPATH') or exit;
 
 use RelayWp\Affiliate\Core\Models\Affiliate;
 use RelayWp\Affiliate\Core\Models\Member;
 use RelayWp\Affiliate\Core\Payments\RWPPayment;
 use RelayWp\Affiliate\Core\Models\Payout;
-use RelayWp\Affiliate\Core\Models\Transaction;
-use RelayWP\Tremendous\App\Helpers\PluginHelper;
-use RelayWP\Tremendous\App\Services\Request\Response;
-use RelayWP\Tremendous\App\Services\Settings;
-use RelayWP\Tremendous\Src\Models\Reward;
+use WPRelay\Tremendous\App\Helpers\PluginHelper;
+use WPRelay\Tremendous\Src\Models\Reward;
 
 class Tremendous extends RWPPayment
 {
@@ -52,7 +51,6 @@ class Tremendous extends RWPPayment
     {
         try {
 
-            error_log('Bulk Tremendous Payout Initialized');
 
             $ids = implode("','", $payout_ids);
 
@@ -109,7 +107,6 @@ class Tremendous extends RWPPayment
                         'payout_id' => $payout_id
                     ]);
                     static::payoutFailed([$payout]);
-                    error_log('ActionScheduler not initialized so Unable to process Payouts Via Paypal');
                 }
             }
         } catch (\Error $error) {
@@ -121,14 +118,14 @@ class Tremendous extends RWPPayment
     public static function payoutFailed($payouts)
     {
         foreach ($payouts as $payout) {
-            do_action('rwp_payment_mark_as_failed', $payout->id, ['message' => 'Tremendous Payment Failed']);
+            do_action('rwpa_payment_mark_as_failed', $payout->id, ['message' => 'Tremendous Payment Failed']);
         }
     }
 
     public static function payoutSucceeded($payouts)
     {
         foreach ($payouts as $payout) {
-            do_action('rwp_payment_mark_as_succeeded', $payout->id, ['message' => 'Tremendous Payment Failed']);
+            do_action('rwpa_payment_mark_as_succeeded', $payout->id, ['message' => 'Tremendous Payment Failed']);
         }
     }
 
@@ -168,7 +165,7 @@ class Tremendous extends RWPPayment
 
             $status = 'failed';
 
-            $updateData=[];
+            $updateData = [];
             $updateData['status'] = $status;
             if ($client->authenticate()) {
                 $response = $client->sendRewards($data);
@@ -193,14 +190,12 @@ class Tremendous extends RWPPayment
                         }
 
                         foreach ($order_rewards as $item) {
-                            error_log(print_r($item, true));
 
                             $updateData = [];
                             $updateData['order_id'] = $item['order_id'];
                             $updateData['status'] = $status;
-
                         }
-                    } else  {
+                    } else {
                         $updateData = [];
                         $updateData['status'] = $status;
                     }
@@ -219,18 +214,16 @@ class Tremendous extends RWPPayment
             ]);
 
             if ($status == 'success') {
-                error_log('Single reward Sending succeeded');
-                do_action('rwp_payment_mark_as_succeeded', $payout->id, ['message' => 'Payout Succeeded']);
+                do_action('rwpa_payment_mark_as_succeeded', $payout->id, ['message' => 'Payout Succeeded']);
                 return true;
             } else {
-                error_log('Sending Single reward Failed');
-                do_action('rwp_payment_mark_as_failed', $payout->id, ['message' => $error_message ?? 'Payout Failed via Tremendous']);
+                do_action('rwpa_payment_mark_as_failed', $payout->id, ['message' => $error_message ?? 'Payout Failed via Tremendous']);
                 return false;
             }
         } catch (\Error $error) {
             PluginHelper::logError("Error Occurred While Send Single Reward", [__CLASS__, __FUNCTION__], $error);
-            if(isset($payout)) {
-                do_action('rwp_payment_mark_as_failed', $payout->id, ['message' => $error_message ?? 'Payout Failed via Tremendous']);
+            if (isset($payout)) {
+                do_action('rwpa_payment_mark_as_failed', $payout->id, ['message' => $error_message ?? 'Payout Failed via Tremendous']);
             }
 
             return false;

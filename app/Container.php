@@ -1,6 +1,9 @@
 <?php
 
-namespace RelayWP\Tremendous\App;
+namespace WPRelay\Tremendous\App;
+
+defined('ABSPATH') or exit;
+
 class Container
 {
     public $bindings = [];
@@ -23,3 +26,4 @@ class Container
         }
     }
 }
+

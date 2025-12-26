@@ -1,6 +1,8 @@
 <?php
 
-namespace RelayWP\Tremendous\App\Resources;
+namespace WPRelay\Tremendous\App\Resources;
+
+defined('ABSPATH') or exit;
 
 class RewardItemCollection extends Collection
 {
@@ -28,3 +30,4 @@ class RewardItemCollection extends Collection
         ];
     }
 }
+

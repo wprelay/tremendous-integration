@@ -1,9 +1,11 @@
 <?php
 
-namespace RelayWP\Tremendous\App\Hooks;
+namespace WPRelay\Tremendous\App\Hooks;
 
-use RelayWP\Tremendous\App\Helpers\PluginHelper;
-use RelayWP\Tremendous\Src\Controllers\Admin\PageController;
+defined('ABSPATH') or exit;
+
+use WPRelay\Tremendous\App\Helpers\PluginHelper;
+use WPRelay\Tremendous\Src\Controllers\Admin\PageController;
 
 class AdminHooks extends RegisterHooks
 {
@@ -12,20 +14,14 @@ class AdminHooks extends RegisterHooks
         static::registerHooks('admin-hooks.php');
     }
 
-    public static function init()
-    {
+    public static function init() {}
 
-    }
-
-    public static function head()
-    {
-
-    }
+    public static function head() {}
 
     public static function addMenu()
     {
         add_submenu_page(
-            null,
+            '',
             esc_html__(WPR_TREMENDOUS_PLUGIN_NAME, WPR_TREMENDOUS_PLUGIN_SLUG),
             esc_html__(WPR_TREMENDOUS_PLUGIN_NAME, WPR_TREMENDOUS_PLUGIN_SLUG),
             'manage_options',

@@ -1,6 +1,8 @@
 <?php
 
-namespace RelayWP\Tremendous\App\Helpers;
+namespace WPRelay\Tremendous\App\Helpers;
+
+defined('ABSPATH') or exit;
 
 use Exception;
 
@@ -20,7 +22,6 @@ class PluginHelper
 
     public static function getReactAssetURL()
     {
-        error_log(WPR_TREMENDOUS_PLUGIN_URL);
         return WPR_TREMENDOUS_PLUGIN_URL . 'tremendous-ui/dist';
     }
 
@@ -54,5 +55,4 @@ class PluginHelper
         $unique_id = Functions::getUniqueId();
         return "external-{$payout_id}-$unique_id";
     }
-
 }
